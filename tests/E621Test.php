@@ -63,7 +63,7 @@ final class E621Test extends TestCase
     {
         $this->api->setDebugLogHandler([$this, 'debugLogHandler']);
 
-        $this->expectException(InvalidArgumentException::class);
+        (float)phpversion() >= 5.6 && $this->expectException(InvalidArgumentException::class);
         $this->api->setDebugLogHandler(['InvalidClass', 'debugLogHandler']);
     }
 
@@ -78,7 +78,7 @@ final class E621Test extends TestCase
     {
         $this->api->setRequestProgressHandler([$this, 'requestProgressHandler']);
 
-        $this->expectException(InvalidArgumentException::class);
+        (float)phpversion() >= 5.6 && $this->expectException(InvalidArgumentException::class);
         $this->api->setRequestProgressHandler(['InvalidClass', 'requestProgressHandler']);
     }
 }
