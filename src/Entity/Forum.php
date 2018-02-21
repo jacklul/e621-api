@@ -11,7 +11,12 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method string getBody()
+ * @method string getCreator()
+ * @method int    getCreatorId()
+ * @method int    getId()
+ * @method int    getParentId()
+ * @method string getTitle()
  */
 class Forum extends Entity
 {

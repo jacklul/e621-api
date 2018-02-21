@@ -11,11 +11,9 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @method string getMd5()
  * @method string getExists()
  * @method string getPostId()
- *
- * @package jacklul\E621API\Entity
+ * @method string getMd5()
  */
 class PostMd5 extends Entity
 {

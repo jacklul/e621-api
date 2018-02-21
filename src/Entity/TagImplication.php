@@ -11,7 +11,10 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int  getId()
+ * @method int  getConsequentId()
+ * @method int  getPredicateId()
+ * @method bool getPending()
  */
 class TagImplication extends Entity
 {

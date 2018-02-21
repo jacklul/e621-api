@@ -11,7 +11,6 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
  */
 class Generic extends Entity
 {

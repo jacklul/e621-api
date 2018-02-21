@@ -11,7 +11,13 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method string getName()
+ * @method int    getLevel()
+ * @method string getCreatedAt()
+ * @method int    getAvatarId()
+ * @method array  getStats()
+ * @method array  getArtistTags()
  */
 class User extends Entity
 {

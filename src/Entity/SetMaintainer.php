@@ -11,7 +11,10 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method int    getPostSetId()
+ * @method int    getUserId()
+ * @method string getStatus()
  */
 class SetMaintainer extends Entity
 {

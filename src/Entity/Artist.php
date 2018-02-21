@@ -11,7 +11,14 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method string getName()
+ * @method string getOtherNames()
+ * @method string getGroupName()
+ * @method array  getUrls()
+ * @method bool   getIsActive()
+ * @method int    getVersion()
+ * @method int    getUpdaterId()
  */
 class Artist extends Entity
 {

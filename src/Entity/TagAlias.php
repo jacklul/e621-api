@@ -11,7 +11,10 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method string getName()
+ * @method int    getAliasId()
+ * @method bool   getPending()
  */
 class TagAlias extends Entity
 {

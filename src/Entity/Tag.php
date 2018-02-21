@@ -11,14 +11,13 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @method string getName()
  * @method string getId()
+ * @method string getName()
  * @method string getCount()
  * @method string getType()
+ * @method bool   getTypeLocked()
  *
  * @property int type
- *
- * @package jacklul\E621API\Entity
  */
 class Tag extends Entity
 {

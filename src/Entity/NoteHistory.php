@@ -12,15 +12,20 @@ namespace jacklul\E621API\Entity;
 
 /**
  * @method int    getId()
+ * @method int    getNoteId()
  * @method array  getCreatedAt()
  * @method array  getUpdatedAt()
- * @method string getTitle()
+ * @method int    getCreatorId()
+ * @method int    getX()
+ * @method int    getY()
+ * @method int    getWidth()
+ * @method int    getHeight()
+ * @method bool   getIsActive()
+ * @method int    getPostId()
  * @method string getBody()
- * @method int    getUpdaterId()
- * @method bool   getLocked()
  * @method int    getVersion()
  */
-class Wiki extends Entity
+class NoteHistory extends Entity
 {
     public function getCreatedAtInt()
     {

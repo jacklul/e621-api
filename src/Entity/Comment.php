@@ -11,7 +11,13 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method string getCreatedAt()
+ * @method int    getPostId()
+ * @method string getCreator()
+ * @method int    getCreatorId()
+ * @method string getBody()
+ * @method int    getScore()
  */
 class Comment extends Entity
 {

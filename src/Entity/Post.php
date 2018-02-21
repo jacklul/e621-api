@@ -11,49 +11,52 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @method int getId()
- * @method string getAuthor()
- * @method int getCreatorId()
- * @method array getCreatedAt()
- * @method string getStatus()
- * @method string getSource()
- * @method array getSources()
+ * @method int    getId()
  * @method string getTags()
- * @method array getArtist()
+ * @method string getLockedTags()
  * @method string getDescription()
- * @method string getFavCount()
+ * @method array  getCreatedAt()
+ * @method int    getCreatorId()
+ * @method string getAuthor()
+ * @method int    getChange()
+ * @method string getSource()
  * @method string getScore()
- * @method string getRating()
- * @method string getParentId()
- * @method bool getHasChildren()
- * @method string getChildren()
- * @method bool getHasNotes()
- * @method bool getHasComments()
+ * @method string getFavCount()
  * @method string getMd5()
+ * @method string getFileSize()
  * @method string getFileUrl()
  * @method string getFileExt()
- * @method string getFileSize()
- * @method string getWidth()
- * @method string getHeight()
  * @method string getSampleUrl()
  * @method string getSampleWidth()
  * @method string getSampleHeight()
  * @method string getPreviewUrl()
  * @method string getPreviewWidth()
  * @method string getPreviewHeight()
+ * @method string getRating()
+ * @method string getStatus()
+ * @method string getWidth()
+ * @method string getHeight()
+ * @method bool   getHasComments()
+ * @method bool   getHasNotes()
+ * @method bool   getHasChildren()
+ * @method string getChildren()
+ * @method string getParentId()
+ * @method array  getArtist()
+ * @method array  getSources()
  * @method string getDelReason()
  *
- * @package jacklul\E621API\Entity
+ * @property int created_at
+ * @property string children
  */
 class Post extends Entity
 {
     public function getCreatedAtInt()
     {
-        return isset($data['created_at']['s']) ? $data['created_at']['s'] : null;
+        return isset($this->created_at['s']) ? $this->created_at['s'] : null;
     }
 
     public function getChildrenArray()
     {
-        return isset($data['children']) ? explode(',', $data['children']) : null;
+        return isset($this->children) ? explode(',', $this->children) : null;
     }
 }

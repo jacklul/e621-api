@@ -11,8 +11,8 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method array getRelated()
  */
-class PoolPost extends Entity
+class TagRelated extends Entity
 {
 }

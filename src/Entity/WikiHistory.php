@@ -12,6 +12,7 @@ namespace jacklul\E621API\Entity;
 
 /**
  * @method int    getId()
+ * @method int    getWikiId()
  * @method array  getCreatedAt()
  * @method array  getUpdatedAt()
  * @method string getTitle()
@@ -20,7 +21,7 @@ namespace jacklul\E621API\Entity;
  * @method bool   getLocked()
  * @method int    getVersion()
  */
-class Wiki extends Entity
+class WikiHistory extends Entity
 {
     public function getCreatedAtInt()
     {

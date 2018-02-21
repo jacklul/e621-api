@@ -17,11 +17,12 @@ use jacklul\E621API\Entity\Artist;
 use jacklul\E621API\Entity\Blip;
 use jacklul\E621API\Entity\Comment;
 use jacklul\E621API\Entity\Dmail;
+use jacklul\E621API\Entity\FavoritedUsers;
 use jacklul\E621API\Entity\Forum;
 use jacklul\E621API\Entity\Generic;
 use jacklul\E621API\Entity\Note;
+use jacklul\E621API\Entity\NoteHistory;
 use jacklul\E621API\Entity\Pool;
-use jacklul\E621API\Entity\PoolPost;
 use jacklul\E621API\Entity\Post;
 use jacklul\E621API\Entity\PostFlagHistory;
 use jacklul\E621API\Entity\PostMd5;
@@ -29,610 +30,576 @@ use jacklul\E621API\Entity\PostTagHistory;
 use jacklul\E621API\Entity\Response;
 use jacklul\E621API\Entity\Set;
 use jacklul\E621API\Entity\SetMaintainer;
-use jacklul\E621API\Entity\SetPost;
 use jacklul\E621API\Entity\Tag;
 use jacklul\E621API\Entity\TagAlias;
 use jacklul\E621API\Entity\TagImplication;
+use jacklul\E621API\Entity\TagRelated;
 use jacklul\E621API\Entity\Ticket;
 use jacklul\E621API\Entity\User;
 use jacklul\E621API\Entity\UserRecord;
 use jacklul\E621API\Entity\Wiki;
+use jacklul\E621API\Entity\WikiHistory;
 
 /**
  * Simple object-oriented e621 API wrapper
  * Some useful code borrowed from https://github.com/php-telegram-bot/core
  *
- * @method Response postCreate(array $params)
- * @method Response postUpdate(array $params)
- * @method Response postShow(array $params)
- * @method Response postCheckMd5(array $params)
- * @method Response postTags(array $params)
- * @method Response postIndex(array $params)
- * @method Response postFlag(array $params)
- * @method Response postDestroy(array $params)
- * @method Response postDeletedIndex(array $params)
- * @method Response postPopularByDay(array $params)
- * @method Response postPopularByWeek(array $params)
- * @method Response postPopularByMonth(array $params)
- * @method Response postRevertTags(array $params)
- * @method Response postVote(array $params)
- * @method Response tagIndex(array $params)
- * @method Response tagShow(array $params)
- * @method Response tagUpdate(array $params)
- * @method Response tagRelated(array $params)
- * @method Response tagAliasIndex(array $params)
- * @method Response tagImplicationIndex(array $params)
- * @method Response artistIndex(array $params)
- * @method Response artistCreate(array $params)
- * @method Response artistUpdate(array $params)
- * @method Response artistDestroy(array $params)
- * @method Response commentShow(array $params)
- * @method Response commentIndex(array $params)
- * @method Response commentSearch(array $params)
- * @method Response commentCreate(array $params)
- * @method Response commentUpdate(array $params)
- * @method Response commentDestroy(array $params)
- * @method Response commentHide(array $params)
- * @method Response commentUnhide(array $params)
- * @method Response commentVote(array $params)
- * @method Response blipCreate(array $params)
- * @method Response blipUpdate(array $params)
- * @method Response blipIndex(array $params)
- * @method Response blipShow(array $params)
- * @method Response blipHide(array $params)
- * @method Response blipUnhide(array $params)
- * @method Response wikiIndex(array $params)
- * @method Response wikiCreate(array $params)
- * @method Response wikiUpdate(array $params)
- * @method Response wikiShow(array $params)
- * @method Response wikiDestroy(array $params)
- * @method Response wikiLock(array $params)
- * @method Response wikiUnlock(array $params)
- * @method Response wikiRevert(array $params)
- * @method Response wikiHistory(array $params)
- * @method Response wikiRecentChanges(array $params)
- * @method Response noteIndex(array $params)
- * @method Response noteSearch(array $params)
- * @method Response noteHistory(array $params)
- * @method Response noteRevert(array $params)
- * @method Response noteUpdate(array $params)
- * @method Response userIndex(array $params)
- * @method Response userShow(array $params)
- * @method Response userRecordShow(array $params)
- * @method Response dmailCreate(array $params)
- * @method Response dmailInbox(array $params)
- * @method Response dmailShow(array $params)
- * @method Response dmailHide(array $params)
- * @method Response dmailUnhide(array $params)
- * @method Response dmailHideAll(array $params)
- * @method Response dmailUnhideAll(array $params)
- * @method Response dmailMarkAllRead(array $params)
- * @method Response forumCreate(array $params)
- * @method Response forumUpdate(array $params)
- * @method Response forumIndex(array $params)
- * @method Response forumSearch(array $params)
- * @method Response forumShow(array $params)
- * @method Response forumHide(array $params)
- * @method Response forumUnhide(array $params)
- * @method Response poolIndex(array $params)
- * @method Response poolShow(array $params)
- * @method Response poolUpdate(array $params)
- * @method Response poolCreate(array $params)
- * @method Response poolDestroy(array $params)
- * @method Response poolAddPost(array $params)
- * @method Response poolRemovePost(array $params)
- * @method Response setIndex(array $params)
- * @method Response setShow(array $params)
- * @method Response setCreate(array $params)
- * @method Response setUpdate(array $params)
- * @method Response setAddPost(array $params)
- * @method Response setRemovePost(array $params)
- * @method Response setDestroy(array $params)
- * @method Response setMaintainers(array $params)
- * @method Response setMaintainerIndex(array $params)
- * @method Response setMaintainerCreate(array $params)
- * @method Response setMaintainerDestroy(array $params)
- * @method Response setMaintainerApprove(array $params)
- * @method Response setMaintainerDeny(array $params)
- * @method Response setMaintainerBlock(array $params)
- * @method Response favoriteListUsers(array $params)
- * @method Response postTagHistoryIndex(array $params)
- * @method Response postFlagHistoryIndex(array $params)
- * @method Response ticketCreate(array $params)
- * @method Response ticketIndex(array $params)
- * @method Response ticketShow(array $params)
+ * @method Response postCreate(array $params = null)
+ * @method Response postUpdate(array $params = null)
+ * @method Response postShow(array $params = null)
+ * @method Response postCheckMd5(array $params = null)
+ * @method Response postTags(array $params = null)
+ * @method Response postIndex(array $params = null)
+ * @method Response postFlag(array $params = null)
+ * @method Response postDestroy(array $params = null)
+ * @method Response postDeletedIndex(array $params = null)
+ * @method Response postPopularByDay(array $params = null)
+ * @method Response postPopularByWeek(array $params = null)
+ * @method Response postPopularByMonth(array $params = null)
+ * @method Response postRevertTags(array $params = null)
+ * @method Response postVote(array $params = null)
+ * @method Response tagIndex(array $params = null)
+ * @method Response tagShow(array $params = null)
+ * @method Response tagUpdate(array $params = null)
+ * @method Response tagRelated(array $params = null)
+ * @method Response tagAliasIndex(array $params = null)
+ * @method Response tagImplicationIndex(array $params = null)
+ * @method Response artistIndex(array $params = null)
+ * @method Response artistCreate(array $params = null)
+ * @method Response artistUpdate(array $params = null)
+ * @method Response artistDestroy(array $params = null)
+ * @method Response commentShow(array $params = null)
+ * @method Response commentIndex(array $params = null)
+ * @method Response commentSearch(array $params = null)
+ * @method Response commentCreate(array $params = null)
+ * @method Response commentUpdate(array $params = null)
+ * @method Response commentDestroy(array $params = null)
+ * @method Response commentHide(array $params = null)
+ * @method Response commentUnhide(array $params = null)
+ * @method Response commentVote(array $params = null)
+ * @method Response blipCreate(array $params = null)
+ * @method Response blipUpdate(array $params = null)
+ * @method Response blipIndex(array $params = null)
+ * @method Response blipShow(array $params = null)
+ * @method Response blipHide(array $params = null)
+ * @method Response blipUnhide(array $params = null)
+ * @method Response wikiIndex(array $params = null)
+ * @method Response wikiCreate(array $params = null)
+ * @method Response wikiUpdate(array $params = null)
+ * @method Response wikiShow(array $params = null)
+ * @method Response wikiDestroy(array $params = null)
+ * @method Response wikiLock(array $params = null)
+ * @method Response wikiUnlock(array $params = null)
+ * @method Response wikiRevert(array $params = null)
+ * @method Response wikiHistory(array $params = null)
+ * @method Response wikiRecentChanges(array $params = null)
+ * @method Response noteIndex(array $params = null)
+ * @method Response noteSearch(array $params = null)
+ * @method Response noteHistory(array $params = null)
+ * @method Response noteRevert(array $params = null)
+ * @method Response noteUpdate(array $params = null)
+ * @method Response userIndex(array $params = null)
+ * @method Response userShow(array $params = null)
+ * @method Response userRecordShow(array $params = null)
+ * @method Response dmailCreate(array $params = null)
+ * @method Response dmailInbox(array $params = null)
+ * @method Response dmailShow(array $params = null)
+ * @method Response dmailHide(array $params = null)
+ * @method Response dmailUnhide(array $params = null)
+ * @method Response dmailHideAll(array $params = null)
+ * @method Response dmailUnhideAll(array $params = null)
+ * @method Response dmailMarkAllRead(array $params = null)
+ * @method Response forumCreate(array $params = null)
+ * @method Response forumUpdate(array $params = null)
+ * @method Response forumIndex(array $params = null)
+ * @method Response forumSearch(array $params = null)
+ * @method Response forumShow(array $params = null)
+ * @method Response forumHide(array $params = null)
+ * @method Response forumUnhide(array $params = null)
+ * @method Response poolIndex(array $params = null)
+ * @method Response poolShow(array $params = null)
+ * @method Response poolUpdate(array $params = null)
+ * @method Response poolCreate(array $params = null)
+ * @method Response poolDestroy(array $params = null)
+ * @method Response poolAddPost(array $params = null)
+ * @method Response poolRemovePost(array $params = null)
+ * @method Response setIndex(array $params = null)
+ * @method Response setShow(array $params = null)
+ * @method Response setCreate(array $params = null)
+ * @method Response setUpdate(array $params = null)
+ * @method Response setAddPost(array $params = null)
+ * @method Response setRemovePost(array $params = null)
+ * @method Response setDestroy(array $params = null)
+ * @method Response setMaintainers(array $params = null)
+ * @method Response setMaintainerIndex(array $params = null)
+ * @method Response setMaintainerCreate(array $params = null)
+ * @method Response setMaintainerDestroy(array $params = null)
+ * @method Response setMaintainerApprove(array $params = null)
+ * @method Response setMaintainerDeny(array $params = null)
+ * @method Response setMaintainerBlock(array $params = null)
+ * @method Response favoriteListUsers(array $params = null)
+ * @method Response postTagHistoryIndex(array $params = null)
+ * @method Response postFlagHistoryIndex(array $params = null)
+ * @method Response ticketCreate(array $params = null)
+ * @method Response ticketIndex(array $params = null)
+ * @method Response ticketShow(array $params = null)
  */
 class E621
 {
     /**
      * Library version
      *
-      * @var string
+     * @var string
      */
     const VERSION = '0.1.0';
 
     /**
-     * Base URL for API calls
+     * List of supported API methods and their execution settings
      *
-      * @var string
+     * @var array
      */
-    private $base_uri = 'https://e621.net';
-
-    /**
-     * Guzzle's Client object
-     *
-      * @var Client
-     */
-    private $client;
-
-    /**
-     * Handler for requests in progress
-     *
-      * @var callable
-     */
-    private $progress_handler;
-
-    /**
-     * Handler for debug logging
-     *
-      * @var callable
-     */
-    private $debug_log_handler;
-
-    /**
-     * Temporary handle for request logging
-     *
-      * @var resource
-     */
-    private $debug_log_stream_handle;
-
-    /**
-     * List of supported API methods
-     *
-      * @var array
-     */
-    public $actions = [
-        'postCreate' => [
+    private $actions = [
+        'postCreate'           => [
             'path'   => 'post/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'postUpdate' => [
+        'postUpdate'           => [
             'path'   => 'post/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'postShow' => [
+        'postShow'             => [
             'path'   => 'post/show.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postCheckMd5' => [
+        'postCheckMd5'         => [
             'path'   => 'post/check_md5.json',
             'method' => 'GET',
             'class'  => PostMd5::class,
         ],
-        'postTags' => [
+        'postTags'             => [
             'path'   => 'post/tags.json',
             'method' => 'GET',
             'class'  => Tag::class,
         ],
-        'postIndex' => [
+        'postIndex'            => [
             'path'   => 'post/index.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postFlag' => [
+        'postFlag'             => [
             'path'   => 'post/flag.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'postDestroy' => [
+        'postDestroy'          => [
             'path'   => 'post/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'postDeletedIndex' => [
+        'postDeletedIndex'     => [
             'path'   => 'post/deleted_index.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postPopularByDay' => [
+        'postPopularByDay'     => [
             'path'   => 'post/popular_by_day.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postPopularByWeek' => [
+        'postPopularByWeek'    => [
             'path'   => 'post/popular_by_week.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postPopularByMonth' => [
+        'postPopularByMonth'   => [
             'path'   => 'post/popular_by_month.json',
             'method' => 'GET',
             'class'  => Post::class,
         ],
-        'postRevertTags' => [
+        'postRevertTags'       => [
             'path'   => 'post/revert_tags.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'postVote' => [
+        'postVote'             => [
             'path'   => 'post/vote.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'tagIndex' => [
+        'tagIndex'             => [
             'path'   => 'tag/index.json',
             'method' => 'GET',
             'class'  => Tag::class,
         ],
-        'tagShow' => [
+        'tagShow'              => [
             'path'   => 'tag/show.json',
             'method' => 'GET',
             'class'  => Tag::class,
         ],
-        'tagUpdate' => [
+        'tagUpdate'            => [
             'path'   => 'tag/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'tagRelated' => [
+        'tagRelated'           => [
             'path'   => 'tag/related.json',
             'method' => 'GET',
-            'class'  => Tag::class,
+            'class'  => TagRelated::class,
         ],
-        'tagAliasIndex' => [
+        'tagAliasIndex'        => [
             'path'   => 'tag_alias/index.json',
             'method' => 'GET',
             'class'  => TagAlias::class,
         ],
-        'tagImplicationIndex' => [
+        'tagImplicationIndex'  => [
             'path'   => 'tag_implication/index.json',
             'method' => 'GET',
             'class'  => TagImplication::class,
         ],
-        'artistIndex' => [
+        'artistIndex'          => [
             'path'   => 'artist/index.json',
             'method' => 'GET',
             'class'  => Artist::class,
         ],
-        'artistCreate' => [
+        'artistCreate'         => [
             'path'   => 'artist/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'artistUpdate' => [
+        'artistUpdate'         => [
             'path'   => 'artist/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'artistDestroy' => [
+        'artistDestroy'        => [
             'path'   => 'artist/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentShow' => [
+        'commentShow'          => [
             'path'   => 'comment/show.json',
             'method' => 'GET',
             'class'  => Comment::class,
         ],
-        'commentIndex' => [
+        'commentIndex'         => [
             'path'   => 'comment/index.json',
             'method' => 'GET',
             'class'  => Comment::class,
         ],
-        'commentSearch' => [
+        'commentSearch'        => [
             'path'   => 'comment/search.json',
             'method' => 'GET',
             'class'  => Comment::class,
         ],
-        'commentCreate' => [
+        'commentCreate'        => [
             'path'   => 'comment/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentUpdate' => [
+        'commentUpdate'        => [
             'path'   => 'comment/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentDestroy' => [
+        'commentDestroy'       => [
             'path'   => 'comment/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentHide' => [
+        'commentHide'          => [
             'path'   => 'comment/hide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentUnhide' => [
+        'commentUnhide'        => [
             'path'   => 'comment/unhide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'commentVote' => [
+        'commentVote'          => [
             'path'   => 'comment/vote.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'blipCreate' => [
+        'blipCreate'           => [
             'path'   => 'blip/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'blipUpdate' => [
+        'blipUpdate'           => [
             'path'   => 'blip/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'blipIndex' => [
+        'blipIndex'            => [
             'path'   => 'blip/index.json',
             'method' => 'GET',
             'class'  => Blip::class,
         ],
-        'blipShow' => [
+        'blipShow'             => [
             'path'   => 'blip/show.json',
             'method' => 'GET',
             'class'  => Blip::class,
         ],
-        'blipHide' => [
+        'blipHide'             => [
             'path'   => 'blip/hide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'blipUnhide' => [
+        'blipUnhide'           => [
             'path'   => 'blip/unhide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiIndex' => [
+        'wikiIndex'            => [
             'path'   => 'wiki/index.json',
             'method' => 'GET',
             'class'  => Wiki::class,
         ],
-        'wikiCreate' => [
+        'wikiCreate'           => [
             'path'   => 'wiki/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiUpdate' => [
+        'wikiUpdate'           => [
             'path'   => 'wiki/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiShow' => [
+        'wikiShow'             => [
             'path'   => 'wiki/show.json',
             'method' => 'GET',
             'class'  => Wiki::class,
         ],
-        'wikiDestroy' => [
+        'wikiDestroy'          => [
             'path'   => 'wiki/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiLock' => [
+        'wikiLock'             => [
             'path'   => 'wiki/lock.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiUnlock' => [
+        'wikiUnlock'           => [
             'path'   => 'wiki/unlock.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiRevert' => [
+        'wikiRevert'           => [
             'path'   => 'wiki/revert.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'wikiHistory' => [
+        'wikiHistory'          => [
             'path'   => 'wiki/history.json',
             'method' => 'GET',
-            'class'  => Generic::class,
+            'class'  => WikiHistory::class,
         ],
-        'wikiRecentChanges' => [
+        'wikiRecentChanges'    => [
             'path'   => 'wiki/recent_changes.json',
             'method' => 'GET',
-            'class'  => Generic::class,
+            'class'  => Wiki::class,
         ],
-        'noteIndex' => [
+        'noteIndex'            => [
             'path'   => 'note/index.json',
             'method' => 'GET',
             'class'  => Note::class,
         ],
-        'noteSearch' => [
+        'noteSearch'           => [
             'path'   => 'note/search.json',
             'method' => 'GET',
             'class'  => Note::class,
         ],
-        'noteHistory' => [
+        'noteHistory'          => [
             'path'   => 'note/history.json',
             'method' => 'GET',
-            'class'  => Generic::class,
+            'class'  => NoteHistory::class,
         ],
-        'noteRevert' => [
+        'noteRevert'           => [
             'path'   => 'note/revert.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'noteUpdate' => [
+        'noteUpdate'           => [
             'path'   => 'note/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'userIndex' => [
+        'userIndex'            => [
             'path'   => 'user/index.json',
             'method' => 'GET',
             'class'  => User::class,
         ],
-        'userShow' => [
+        'userShow'             => [
             'path'   => 'user/show.json',
             'method' => 'GET',
             'class'  => User::class,
         ],
-        'userRecordShow' => [
+        'userRecordShow'       => [
             'path'   => 'user_record/show.json',
             'method' => 'GET',
             'class'  => UserRecord::class,
         ],
-        'dmailCreate' => [
+        'dmailCreate'          => [
             'path'   => 'dmail/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'dmailInbox' => [
+        'dmailInbox'           => [
             'path'   => 'dmail/inbox.json',
             'method' => 'GET',
             'class'  => Dmail::class,
         ],
-        'dmailShow' => [
+        'dmailShow'            => [
             'path'   => 'dmail/show.json',
             'method' => 'GET',
             'class'  => Dmail::class,
         ],
-        'dmailHide' => [
+        'dmailHide'            => [
             'path'   => 'dmail/hide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'dmailUnhide' => [
+        'dmailUnhide'          => [
             'path'   => 'dmail/unhide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'dmailHideAll' => [
+        'dmailHideAll'         => [
             'path'   => 'dmail/hide_all.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'dmailUnhideAll' => [
+        'dmailUnhideAll'       => [
             'path'   => 'dmail/unhide_all.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'dmailMarkAllRead' => [
+        'dmailMarkAllRead'     => [
             'path'   => 'dmail/mark_all_read.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'forumCreate' => [
+        'forumCreate'          => [
             'path'   => 'forum/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'forumUpdate' => [
+        'forumUpdate'          => [
             'path'   => 'forum/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'forumIndex' => [
+        'forumIndex'           => [
             'path'   => 'forum/index.json',
             'method' => 'GET',
             'class'  => Forum::class,
         ],
-        'forumSearch' => [
+        'forumSearch'          => [
             'path'   => 'forum/search.json',
             'method' => 'GET',
             'class'  => Forum::class,
         ],
-        'forumShow' => [
+        'forumShow'            => [
             'path'   => 'forum/show.json',
             'method' => 'GET',
             'class'  => Forum::class,
         ],
-        'forumHide' => [
+        'forumHide'            => [
             'path'   => 'forum/hide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'forumUnhide' => [
+        'forumUnhide'          => [
             'path'   => 'forum/unhide.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'poolIndex' => [
+        'poolIndex'            => [
             'path'   => 'pool/index.json',
             'method' => 'GET',
             'class'  => Pool::class,
         ],
-        'poolShow' => [
+        'poolShow'             => [
             'path'   => 'pool/show.json',
             'method' => 'GET',
-            'class'  => PoolPost::class,
+            'class'  => Pool::class,
         ],
-        'poolUpdate' => [
+        'poolUpdate'           => [
             'path'   => 'pool/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'poolCreate' => [
+        'poolCreate'           => [
             'path'   => 'pool/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'poolDestroy' => [
+        'poolDestroy'          => [
             'path'   => 'pool/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'poolAddPost' => [
+        'poolAddPost'          => [
             'path'   => 'pool/add_post.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'poolRemovePost' => [
+        'poolRemovePost'       => [
             'path'   => 'pool/remove_post.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setIndex' => [
+        'setIndex'             => [
             'path'   => 'set/index.json',
             'method' => 'GET',
             'class'  => Set::class,
         ],
-        'setShow' => [
+        'setShow'              => [
             'path'   => 'set/show.json',
             'method' => 'GET',
-            'class'  => SetPost::class,
+            'class'  => Set::class,
         ],
-        'setCreate' => [
+        'setCreate'            => [
             'path'   => 'set/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setUpdate' => [
+        'setUpdate'            => [
             'path'   => 'set/update.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setAddPost' => [
+        'setAddPost'           => [
             'path'   => 'set/add_post.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setRemovePost' => [
+        'setRemovePost'        => [
             'path'   => 'set/remove_post.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setDestroy' => [
+        'setDestroy'           => [
             'path'   => 'set/destroy.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setMaintainers' => [
+        'setMaintainers'       => [
             'path'   => 'set/maintainers.json',
             'method' => 'GET',
             'class'  => SetMaintainer::class,
         ],
-        'setMaintainerIndex' => [
+        'setMaintainerIndex'   => [
             'path'   => 'set_maintainer/index.json',
             'method' => 'GET',
             'class'  => SetMaintainer::class,
         ],
-        'setMaintainerCreate' => [
+        'setMaintainerCreate'  => [
             'path'   => 'set_maintainer/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
@@ -642,27 +609,27 @@ class E621
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setMaintainerApprove.json' => [
+        'setMaintainerApprove' => [
             'path'   => 'set_maintainer/approve.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setMaintainerDeny' => [
+        'setMaintainerDeny'    => [
             'path'   => 'set_maintainer/deny.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'setMaintainerBlock' => [
+        'setMaintainerBlock'   => [
             'path'   => 'set_maintainer/block.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'favoriteListUsers' => [
+        'favoriteListUsers'    => [
             'path'   => 'favorite/list_users.json',
             'method' => 'GET',
-            'class'  => User::class,
+            'class'  => FavoritedUsers::class,
         ],
-        'postTagHistoryIndex' => [
+        'postTagHistoryIndex'  => [
             'path'   => 'post_tag_history/index.json',
             'method' => 'GET',
             'class'  => PostTagHistory::class,
@@ -672,17 +639,17 @@ class E621
             'method' => 'GET',
             'class'  => PostFlagHistory::class,
         ],
-        'ticketCreate' => [
+        'ticketCreate'         => [
             'path'   => 'ticket/create.json',
             'method' => 'POST',
             'class'  => Generic::class,
         ],
-        'ticketIndex' => [
+        'ticketIndex'          => [
             'path'   => 'ticket/index.json',
             'method' => 'GET',
             'class'  => Ticket::class,
         ],
-        'ticketShow' => [
+        'ticketShow'           => [
             'path'   => 'ticket/show.json',
             'method' => 'GET',
             'class'  => Ticket::class,
@@ -690,12 +657,47 @@ class E621
     ];
 
     /**
+     * Base URL for API calls
+     *
+     * @var string
+     */
+    private $base_uri = 'https://e621.net';
+
+    /**
+     * Guzzle's Client object
+     *
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * Handler for requests in progress
+     *
+     * @var callable
+     */
+    private $progress_handler;
+
+    /**
+     * Handler for debug logging
+     *
+     * @var callable
+     */
+    private $debug_log_handler;
+
+    /**
+     * Temporary handle for request logging
+     *
+     * @var resource
+     */
+    private $debug_log_stream_handle;
+
+    /**
      * E621 constructor
      *
-      * @param string $user_agent
-      * @param array $custom_options
+     * @param string $user_agent
+     * @param array $custom_options
      *
-      * @throws InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($user_agent, array $custom_options = null)
     {
@@ -723,15 +725,31 @@ class E621
     }
 
     /**
+     * @param string $action
+     * @param array $data
+     *
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function __call($action, array $data = [])
+    {
+        if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
+            throw new InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
+        }
+
+        return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);
+    }
+
+    /**
      * Main method for making requests
      *
-      * @param string $path
-      * @param array $data
-      * @param string $method
-      * @param string $class
+     * @param string $path
+     * @param array $data
+     * @param string $method
+     * @param string $class
      *
-      * @return string
-      * @throws InvalidArgumentException
+     * @return string
+     * @throws InvalidArgumentException
      */
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
     {
@@ -752,17 +770,19 @@ class E621
 
         try {
             $response = $this->client->request($method, $path, $options);
-            $result = json_decode((string) $response->getBody(), true);
+            $raw_result = (string)$response->getBody();
+            $result = json_decode($raw_result, true);
         } catch (RequestException $e) {
             $this->debugLog($e);
-            $result = ($e->getResponse()) ? (string) $e->getResponse()->getBody() : 'Empty response / Request timed out';
+            $result = ($e->getResponse()) ? (string)$e->getResponse()->getBody() : 'Empty response / Request timed out';
+            $raw_result = $result;
 
             // Replace the result when HTML code is detected or request result code isn't 200
             if ($e->getResponse()->getStatusCode() !== 200 || preg_match("/<[^<]+>/", $result) !== false) {
-                $result = (string) $e->getResponse()->getStatusCode() . ' ' . (string)$e->getResponse()->getReasonPhrase();
+                $result = (string)$e->getResponse()->getStatusCode() . ' ' . (string)$e->getResponse()->getReasonPhrase();
             }
 
-            $result = ['success' => false, 'reason' => $result];
+            $result = ['success' => false, 'reason' => $result, 'raw_result' => $raw_result];
         } finally {
             $this->endDebugStream();
         }
@@ -777,15 +797,15 @@ class E621
             }
         }
 
-        return new Response($class, $result);
+        return new Response($class, $result, $raw_result);
     }
 
     /**
      * Prepare request params for POST request, convert to multipart when needed
      *
-      * @param array $data
+     * @param array $data
      *
-      * @return array
+     * @return array
      */
     private function prepareRequestParams(array $data)
     {
@@ -800,7 +820,7 @@ class E621
 
             foreach ($value as $multiKey => $multiValue) {
                 is_resource($multiValue) && $has_resource = true;
-                $multiName = $key . '[' .$multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
+                $multiName = $key . '[' . $multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
                 $multipart[] = ['name' => $multiName, 'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)];
             }
         }
@@ -813,35 +833,9 @@ class E621
     }
 
     /**
-      * @param string $action
-      * @param array $data
-     *
-      * @return mixed
-      * @throws InvalidArgumentException
-     */
-    public function __call($action, array $data = [])
-    {
-        if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
-            throw new InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
-        }
-
-        return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);
-    }
-
-    /**
-     * Write to debug log
-     *
-      * @param $message
-     */
-    private function debugLog($message)
-    {
-        $this->debug_log_handler !== null && is_callable($this->debug_log_handler) && call_user_func($this->debug_log_handler, $message);
-    }
-
-    /**
      * Get the stream handle of the temporary debug output
      *
-      * @return mixed The stream if debug is active, else false
+     * @return mixed The stream if debug is active, else false
      */
     private function createDebugStream()
     {
@@ -853,13 +847,23 @@ class E621
     }
 
     /**
+     * Write to debug log
+     *
+     * @param $message
+     */
+    private function debugLog($message)
+    {
+        $this->debug_log_handler !== null && is_callable($this->debug_log_handler) && call_user_func($this->debug_log_handler, $message);
+    }
+
+    /**
      * Write the temporary debug stream to log and close the stream handle
      */
     private function endDebugStream()
     {
         if (is_resource($this->debug_log_stream_handle)) {
             rewind($this->debug_log_stream_handle);
-            $this->debugLog('E621 API Verbose HTTP Request output:' . PHP_EOL .  stream_get_contents($this->debug_log_stream_handle) . PHP_EOL);
+            $this->debugLog('E621 API Verbose HTTP Request output:' . PHP_EOL . stream_get_contents($this->debug_log_stream_handle) . PHP_EOL);
             fclose($this->debug_log_stream_handle);
             $this->debug_log_stream_handle = null;
         }
@@ -868,9 +872,9 @@ class E621
     /**
      * Set progress handler
      *
-      * @param callable $progress_handler
+     * @param callable $progress_handler
      *
-      * @throws InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setRequestProgressHandler($progress_handler)
     {
@@ -884,9 +888,9 @@ class E621
     /**
      * Set debug log handler
      *
-      * @param mixed $debug_log_handler
+     * @param mixed $debug_log_handler
      *
-      * @throws InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setDebugLogHandler($debug_log_handler)
     {

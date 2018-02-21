@@ -11,7 +11,11 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method int    getPostId()
+ * @method int    getCreatedAt()
+ * @method string getTags()
+ * @method string getSource()
  */
 class PostTagHistory extends Entity
 {

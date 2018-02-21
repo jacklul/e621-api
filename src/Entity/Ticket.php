@@ -11,8 +11,25 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method int    getId()
+ * @method string getType()
+ * @method string getStatus()
+ * @method array  getCreatedAt()
+ * @method array  getUpdatedAt()
+ * @method int    getUser()
+ * @method string getUsername()
+ * @method string getDesiredUsername()
+ * @method string getOldName()
  */
 class Ticket extends Entity
 {
+    public function getCreatedAtInt()
+    {
+        return isset($this->created_at) && isset($this->created_at['s']) ? $this->created_at['s'] : null;
+    }
+
+    public function getUpdatedAtInt()
+    {
+        return isset($this->updated_at) && isset($this->updated_at['s']) ? $this->updated_at['s'] : null;
+    }
 }

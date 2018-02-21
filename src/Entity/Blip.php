@@ -11,7 +11,11 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method string getBody()
+ * @method string getUser()
+ * @method int    getUserId()
+ * @method int    getId()
+ * @method int    getResponse()
  */
 class Blip extends Entity
 {

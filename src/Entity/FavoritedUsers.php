@@ -11,8 +11,12 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method string getFavoritedUsers()
  */
-class SetPost extends Entity
+class FavoritedUsers extends Entity
 {
+    public function getFavoritedUsersArray()
+    {
+        return isset($this->favorited_users) ? explode(',', $this->favorited_users) : null;
+    }
 }

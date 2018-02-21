@@ -11,8 +11,17 @@
 namespace jacklul\E621API\Entity;
 
 /**
- * @package jacklul\E621API\Entity
+ * @method string getBody()
+ * @method array  getCreatedAt()
+ * @method int    getId()
+ * @method int    getReportedBy()
+ * @method int    getScore()
+ * @method int    getUserId()
  */
 class UserRecord extends Entity
 {
+    public function getCreatedAtInt()
+    {
+        return isset($this->created_at) && isset($this->created_at['s']) ? $this->created_at['s'] : null;
+    }
 }
