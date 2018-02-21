@@ -12,7 +12,6 @@ namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
 
 /**
  * @TODO test every public API method
@@ -39,7 +38,7 @@ final class E621Test extends TestCase
     public function testConstructWithoutUserAgent()
     {
         if ((float)phpversion() >= 7.1) {
-            $this->expectException(\ArgumentCountError::class);
+            $this->setExpectedException(\ArgumentCountError::class);
             new E621();
         }
     }
@@ -47,7 +46,7 @@ final class E621Test extends TestCase
     public function testConstructWithInvalidCustomOptions()
     {
         if ((float)phpversion() >= 7.0) {
-            $this->expectException(\TypeError::class);
+            $this->setExpectedException(\TypeError::class);
             new E621('test', '');
         }
     }
@@ -56,14 +55,16 @@ final class E621Test extends TestCase
     {
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetDebugLogHandler()
+    public function testSetDebugLogHandlerValid()
     {
         $this->api->setDebugLogHandler([$this, 'debugLogHandler']);
+    }
 
-        (float)phpversion() >= 5.6 && $this->expectException(InvalidArgumentException::class);
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetDebugLogHandlerInvalid()
+    {
         $this->api->setDebugLogHandler(['InvalidClass', 'debugLogHandler']);
     }
 
@@ -71,14 +72,16 @@ final class E621Test extends TestCase
     {
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testSetRequestProgressHandler()
+    public function testSetRequestProgressHandlerValid()
     {
         $this->api->setRequestProgressHandler([$this, 'requestProgressHandler']);
+    }
 
-        (float)phpversion() >= 5.6 && $this->expectException(InvalidArgumentException::class);
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetRequestProgressHandlerInvalid()
+    {
         $this->api->setRequestProgressHandler(['InvalidClass', 'requestProgressHandler']);
     }
 }
