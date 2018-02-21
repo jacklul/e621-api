@@ -1,8 +1,10 @@
 # PHPStorm
-.idea
+/.idea
 
 # Composer
-vendor/
+/composer.phar
+/composer.lock
+/vendor/
 
 # Others
-.php_cs.cache
+/.php_cs.cache
