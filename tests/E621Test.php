@@ -38,20 +38,27 @@ final class E621Test extends TestCase
 
     public function testConstructWithoutUserAgent()
     {
-        $this->expectException(\ArgumentCountError::class);
-        new E621();
+        if ((float)phpversion() >= 7.1) {
+            $this->expectException(\ArgumentCountError::class);
+            new E621();
+        }
     }
 
     public function testConstructWithInvalidCustomOptions()
     {
-        $this->expectException(\TypeError::class);
-        new E621('test', '');
+        if ((float)phpversion() >= 7.0) {
+            $this->expectException(\TypeError::class);
+            new E621('test', '');
+        }
     }
 
     public function debugLogHandler($text)
     {
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testSetDebugLogHandler()
     {
         $this->api->setDebugLogHandler([$this, 'debugLogHandler']);
@@ -64,6 +71,9 @@ final class E621Test extends TestCase
     {
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testSetRequestProgressHandler()
     {
         $this->api->setRequestProgressHandler([$this, 'requestProgressHandler']);
