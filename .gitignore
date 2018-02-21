@@ -1,0 +1,8 @@
+# PHPStorm
+.idea
+
+# Composer
+vendor/
+
+# Others
+.php_cs.cache
