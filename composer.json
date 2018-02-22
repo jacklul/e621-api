@@ -2,9 +2,12 @@
   "name": "jacklul/e621-api",
   "type": "library",
   "description": "PHP e621 API Wrapper",
-  "keywords": ["e621", "api", "wrapper"],
+  "keywords": [
+    "e621",
+    "api",
+    "wrapper"
+  ],
   "license": "MIT",
-  "homepage": "https://github.com/jacklul/e621-API",
   "support": {
     "issues": "https://github.com/jacklul/e621-API/issues",
     "source": "https://github.com/jacklul/e621-API"
