@@ -839,9 +839,10 @@ class E621
             $result = ($e->getResponse()) ? (string)$e->getResponse()->getBody() : 'Empty response / Request timed out';
             $raw_result = $result;
 
-            // Replace the result when HTML code is detected or request result code isn't 200
-            if ($e->getResponse()->getStatusCode() !== 200 || preg_match("/<[^<]+>/", $result) !== false) {
+            if ($e->getResponse() !== null && $e->getResponse()->getStatusCode() !== 200) {
                 $result = (string)$e->getResponse()->getStatusCode() . ' ' . (string)$e->getResponse()->getReasonPhrase();
+            } elseif (preg_match("/<[^<]+>/", $result) !== false) {
+                $result = 'HTML data returned';
             }
 
             $result = ['success' => false, 'reason' => $result, 'raw_result' => $raw_result];
