@@ -1,7 +1,7 @@
 {
   "name": "jacklul/e621-api",
   "type": "library",
-  "description": "PHP e621 API Wrapper",
+  "description": "Wrapper for e621.net API",
   "keywords": [
     "e621",
     "api",
