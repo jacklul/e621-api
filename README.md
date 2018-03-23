@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
 
-Simple PHP API wrapper for e621.net API.
+Simple wrapper for e621.net API.
 
 **This class is currently in development, most of the stuff was not tested and not every method in entities is implemented and documented yet.**
 
