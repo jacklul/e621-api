@@ -38,7 +38,12 @@ final class E621Test extends TestCase
     public function testConstructWithoutUserAgent()
     {
         if ((float)phpversion() >= 7.1) {
-            $this->setExpectedException(\ArgumentCountError::class);
+            if (method_exists($this, 'setExpectedException')) {
+                $this->setExpectedException(\ArgumentCountError::class);
+            } elseif (method_exists($this, 'expectException')) {
+                $this->expectException(\ArgumentCountError::class);
+            }
+
             new E621();
         }
     }
@@ -46,7 +51,12 @@ final class E621Test extends TestCase
     public function testConstructWithInvalidCustomOptions()
     {
         if ((float)phpversion() >= 7.0) {
-            $this->setExpectedException(\TypeError::class);
+            if (method_exists($this, 'setExpectedException')) {
+                $this->setExpectedException(\TypeError::class);
+            } elseif (method_exists($this, 'expectException')) {
+                $this->expectException(\TypeError::class);
+            }
+
             new E621('test', '');
         }
     }
