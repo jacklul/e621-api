@@ -21,7 +21,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 - Initialize the object with User-Agent "My project":
 
 ```php
-    require 'vendor/autoload.php';  // don't forget about loading Composer's autloader
+    require 'vendor/autoload.php';
     
     use jacklul\E621API\E621;
     
