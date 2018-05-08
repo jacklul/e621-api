@@ -39,6 +39,7 @@ use jacklul\E621API\Entity\User;
 use jacklul\E621API\Entity\UserRecord;
 use jacklul\E621API\Entity\Wiki;
 use jacklul\E621API\Entity\WikiHistory;
+use RuntimeException;
 
 /**
  * Simple object-oriented e621 API wrapper
@@ -813,6 +814,7 @@ class E621
      *
      * @return string
      * @throws InvalidArgumentException
+     * @throws RuntimeException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
@@ -836,6 +838,10 @@ class E621
             $response = $this->client->request($method, $path, $options);
             $raw_result = (string)$response->getBody();
             $result = json_decode($raw_result, true);
+
+            if (!is_array($result)) {
+                throw new RuntimeException('Result is not an array!');
+            }
         } catch (RequestException $e) {
             $this->debugLog($e);
             $result = ($e->getResponse()) ? (string)$e->getResponse()->getBody() : 'Empty response / Request timed out';
