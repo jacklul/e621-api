@@ -45,7 +45,7 @@ namespace jacklul\E621API\Entity;
  * @method array  getSources()
  * @method string getDelReason()
  *
- * @property int created_at
+ * @property int    created_at
  * @property string children
  */
 class Post extends Entity

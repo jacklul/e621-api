@@ -753,7 +753,7 @@ class E621
      * E621 constructor
      *
      * @param string $user_agent
-     * @param array $custom_options
+     * @param array  $custom_options
      *
      * @throws InvalidArgumentException
      */
@@ -784,10 +784,11 @@ class E621
 
     /**
      * @param string $action
-     * @param array $data
+     * @param array  $data
      *
      * @return mixed
      * @throws InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function __call($action, array $data = [])
     {
@@ -806,12 +807,13 @@ class E621
      * Main method for making requests
      *
      * @param string $path
-     * @param array $data
+     * @param array  $data
      * @param string $method
      * @param string $class
      *
      * @return string
      * @throws InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
     {
@@ -840,7 +842,7 @@ class E621
             $raw_result = $result;
 
             if ($e->getResponse() !== null && $e->getResponse()->getStatusCode() !== 200) {
-                $result = (string)$e->getResponse()->getStatusCode() . ' ' . (string)$e->getResponse()->getReasonPhrase();
+                $result = $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase();
             } elseif (preg_match("/<[^<]+>/", $result) !== false) {
                 $result = 'HTML data returned';
             }

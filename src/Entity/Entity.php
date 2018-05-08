@@ -44,16 +44,16 @@ abstract class Entity
     /**
      * @return string
      */
-    public function toJson()
+    public function __toString()
     {
-        return json_encode(get_object_vars($this));
+        return $this->toJson();
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function toJson()
     {
-        return $this->toJson();
+        return json_encode(get_object_vars($this));
     }
 }

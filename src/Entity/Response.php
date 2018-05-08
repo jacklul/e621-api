@@ -22,7 +22,7 @@ class Response extends Entity
 {
     /**
      * @param string $class
-     * @param array $result
+     * @param array  $result
      * @param string $raw_result
      */
     public function __construct($class, array $result = [], $raw_result = '')
