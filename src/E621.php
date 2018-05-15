@@ -150,9 +150,16 @@ class E621
     /**
      * Library version
      *
-     * @var string
+     * @const string
      */
-    const VERSION = '0.1.0';
+    const VERSION = '0.1.1';
+
+    /**
+     * Base URL for API calls
+     *
+     * @const string
+     */
+    const BASE_URI = 'https://e621.net';
 
     /**
      * List of supported API methods and their execution settings
@@ -716,13 +723,6 @@ class E621
     ];
 
     /**
-     * Base URL for API calls
-     *
-     * @var string
-     */
-    private $base_uri = 'https://e621.net';
-
-    /**
      * Guzzle's Client object
      *
      * @var Client
@@ -765,7 +765,7 @@ class E621
         }
 
         $options = [
-            'base_uri' => $this->base_uri,
+            'base_uri' => self::BASE_URI,
             'headers'  => [
                 'User-Agent' => $user_agent . ' (E621API/' . self::VERSION . ' Guzzle/' . Client::VERSION . ' PHP/' . PHP_VERSION . ')',
                 'Accept'     => 'application/json',
