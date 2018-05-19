@@ -11,6 +11,7 @@
 namespace jacklul\E621API;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use InvalidArgumentException;
 use jacklul\E621API\Entity\Artist;
@@ -39,7 +40,6 @@ use jacklul\E621API\Entity\User;
 use jacklul\E621API\Entity\UserRecord;
 use jacklul\E621API\Entity\Wiki;
 use jacklul\E621API\Entity\WikiHistory;
-use RuntimeException;
 
 /**
  * Simple object-oriented e621 API wrapper
@@ -813,9 +813,7 @@ class E621
      * @param string $class
      *
      * @return string
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
     {
@@ -838,24 +836,30 @@ class E621
             $response = $this->client->request($method, $path, $options);
             $raw_result = (string)$response->getBody();
             $result = json_decode($raw_result, true);
-
-            if (!is_array($result)) {
-                throw new RuntimeException('Result is not an array!');
-            }
         } catch (RequestException $e) {
             $this->debugLog($e);
-            $result = ($e->getResponse()) ? (string)$e->getResponse()->getBody() : 'Empty response / Request timed out';
-            $raw_result = $result;
+            if ($e->getResponse()) {
+                if ($e->getResponse()->getStatusCode() !== 200) {
+                    $result = $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase();
+                } else {
+                    $result = (string)$e->getResponse()->getBody();
+                }
 
-            if ($e->getResponse() !== null && $e->getResponse()->getStatusCode() !== 200) {
-                $result = $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase();
-            } elseif (preg_match("/<[^<]+>/", $result) !== false) {
-                $result = 'HTML data returned';
+                $raw_result = $result;
+            } else {
+                $result = 'Empty response / Request timed out';
+                $raw_result = null;
             }
-
-            $result = ['success' => false, 'reason' => $result, 'raw_result' => $raw_result];
         } finally {
             $this->endDebugStream();
+
+            if (!is_array($result)) {
+                if (preg_match("/<[^<]+>/", $result) !== false) {
+                    $result = 'HTML data returned';
+                }
+
+                $result = ['success' => false, 'reason' => $result, 'raw_result' => $raw_result];
+            }
         }
 
         // Search for result class if we don't have one
