@@ -13,7 +13,6 @@ namespace jacklul\E621API;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use InvalidArgumentException;
 use jacklul\E621API\Entity\Artist;
 use jacklul\E621API\Entity\Blip;
 use jacklul\E621API\Entity\Comment;
@@ -40,6 +39,7 @@ use jacklul\E621API\Entity\User;
 use jacklul\E621API\Entity\UserRecord;
 use jacklul\E621API\Entity\Wiki;
 use jacklul\E621API\Entity\WikiHistory;
+use jacklul\E621API\Exception\LoginRequiredException;
 
 /**
  * Simple object-oriented e621 API wrapper
@@ -756,12 +756,12 @@ class E621
      * @param string $user_agent
      * @param array  $custom_options
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($user_agent, array $custom_options = null)
     {
         if (empty($user_agent) && $user_agent !== false) {
-            throw new InvalidArgumentException('Argument "user_agent" must be set!');
+            throw new \InvalidArgumentException('Argument "user_agent" must be set!');
         }
 
         $options = [
@@ -787,18 +787,20 @@ class E621
      * @param string $action
      * @param array  $data
      *
-     * @return mixed
-     * @throws InvalidArgumentException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return string
+     * @throws \InvalidArgumentException
+     * @throws LoginRequiredException
+     * @throws GuzzleException
      */
     public function __call($action, array $data = [])
     {
         if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
-            throw new InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
+            throw new \InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
         }
 
         if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true && isset($data[0]) && (!isset($data[0]['login']) || !isset($data[0]['password_hash']))) {
             throw new InvalidArgumentException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
+                    throw new LoginRequiredException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
         }
 
         return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);
@@ -812,13 +814,13 @@ class E621
      * @param string $method
      * @param string $class
      *
-     * @return string
+     * @return Response
      * @throws GuzzleException
      */
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
     {
         if (empty($path)) {
-            throw new InvalidArgumentException('Argument "path" cannot be empty!');
+            throw new \InvalidArgumentException('Argument "path" cannot be empty!');
         }
 
         if (strtoupper($method) === 'GET') {
@@ -826,7 +828,7 @@ class E621
         } elseif (strtoupper($method) === 'POST') {
             $options = $this->prepareRequestParams($data);
         } else {
-            throw new InvalidArgumentException('Unsupported request method!');
+            throw new \RuntimeException('Unsupported request method!');
         }
 
         ($this->progress_handler !== null && is_callable($this->progress_handler)) && $options['progress'] = $this->progress_handler;
@@ -910,7 +912,7 @@ class E621
     /**
      * Get the stream handle of the temporary debug output
      *
-     * @return mixed The stream if debug is active, else false
+     * @return bool|resource
      */
     private function createDebugStream()
     {
@@ -949,30 +951,40 @@ class E621
      *
      * @param callable $progress_handler
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setRequestProgressHandler($progress_handler)
     {
         if ($progress_handler !== null && is_callable($progress_handler)) {
             $this->progress_handler = $progress_handler;
         } else {
-            throw new InvalidArgumentException('Argument "progress_handler" must be callable!');
+            throw new \InvalidArgumentException('Argument "progress_handler" must be callable!');
         }
     }
 
     /**
      * Set debug log handler
      *
-     * @param mixed $debug_log_handler
+     * @param callable $debug_log_handler
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setDebugLogHandler($debug_log_handler)
     {
         if ($debug_log_handler !== null && is_callable($debug_log_handler)) {
             $this->debug_log_handler = $debug_log_handler;
         } else {
-            throw new InvalidArgumentException('Argument "debug_log_handler" must be callable!');
+            throw new \InvalidArgumentException('Argument "debug_log_handler" must be callable!');
         }
+    }
+
+    /**
+     * @param $login
+     * @param $api_key
+     */
+    public function setAuth($login, $api_key)
+    {
+        $this->auth['login'] = $login;
+        $this->auth['password_hash'] = $api_key;
     }
 }
