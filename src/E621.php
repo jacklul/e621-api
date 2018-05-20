@@ -152,7 +152,7 @@ class E621
      *
      * @const string
      */
-    const VERSION = '0.1.1';
+    const VERSION = '0.2.0';
 
     /**
      * Base URL for API calls
@@ -751,6 +751,13 @@ class E621
     private $debug_log_stream_handle;
 
     /**
+     * Authentication data (login and API key)
+     *
+     * @var array|null
+     */
+    private $auth;
+
+    /**
      * E621 constructor
      *
      * @param string $user_agent
@@ -798,9 +805,16 @@ class E621
             throw new \InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
         }
 
-        if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true && isset($data[0]) && (!isset($data[0]['login']) || !isset($data[0]['password_hash']))) {
-            throw new InvalidArgumentException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
+        if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true) {
+
+            if (isset($data[0]) && !isset($data[0]['login']) || !isset($data[0]['password_hash'])) {
+                if (isset($this->auth['login']) && isset($this->auth['password_hash'])) {
+                    $data[0]['login'] = $this->auth['login'];
+                    $data[0]['password_hash'] = $this->auth['password_hash'];
+                } else {
                     throw new LoginRequiredException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
+                }
+            }
         }
 
         return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);

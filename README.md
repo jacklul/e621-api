@@ -112,6 +112,12 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     }
 ```
 
+- To authenticate using API key you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
+
+```php
+    $api->setAuth('login', 'api_key');
+```
+
 ## License
 
 See [LICENSE](LICENSE).
