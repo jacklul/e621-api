@@ -806,7 +806,6 @@ class E621
         }
 
         if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true) {
-
             if (isset($data[0]) && !isset($data[0]['login']) || !isset($data[0]['password_hash'])) {
                 if (isset($this->auth['login']) && isset($this->auth['password_hash'])) {
                     $data[0]['login'] = $this->auth['login'];
@@ -993,12 +992,32 @@ class E621
     }
 
     /**
+     * Set auth data globally
+     *
      * @param $login
      * @param $api_key
+     *
+     * @throws \InvalidArgumentException
      */
     public function setAuth($login, $api_key)
     {
+        if (empty($login) || !is_string($login)) {
+            throw new \InvalidArgumentException('Argument "login" cannot be empty and must be a string!');
+        }
+
+        if (empty($login) || !is_string($api_key)) {
+            throw new \InvalidArgumentException('Argument "api_key" cannot be empty and must be a string!');
+        }
+
         $this->auth['login'] = $login;
         $this->auth['password_hash'] = $api_key;
+    }
+
+    /**
+     * Deletes auth data
+     */
+    public function unsetAuth()
+    {
+        $this->auth = null;
     }
 }

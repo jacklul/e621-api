@@ -18,7 +18,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 
 ### Usage
 
-- Initialize the object with User-Agent "My project":
+- Initialize the object with user-agent:
 
 ```php
     require 'vendor/autoload.php';
@@ -28,7 +28,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     $api = new E621('My project');
 ```
 
-- Perform request with own parameters:
+- Perform request with parameters:
 
 ```php
     $request = $api->postIndex(['tags' => 'falvie cat order:>score', 'limit' => 25]);
@@ -38,9 +38,9 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 
 ```php
     if ($request->isSuccessful()) {
-        $results = $request->getResult();    // get the result data
+        $results = $request->getResult();    // Tet the result data
     } else {
-        echo $request->getReason();  // print request failure reason
+        echo $request->getReason();  // Print request failure reason
     }
 ```
 
@@ -112,11 +112,18 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     }
 ```
 
-- To authenticate using API key you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
+
+#### Logging in
+
+Some actions require logging in to execute, to authenticate you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
 
 ```php
-    $api->setAuth('login', 'api_key');
+    $api = new E621('My project');
+    $api->setAuth('login', 'api_key');  // Set login data
+    $request = $api->dmailInbox();
+    $api->unsetAuth(); // Remove login data
 ```
+
 
 ## License
 
