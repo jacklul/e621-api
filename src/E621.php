@@ -797,8 +797,8 @@ class E621
             throw new InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
         }
 
-        if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true && isset($data[0]) && (!isset($data[0]['user']) || !isset($data[0]['password_hash']))) {
-            throw new InvalidArgumentException('Action "' . $action . '" require logging in, provide "user" and "password_hash" parameters!');
+        if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true && isset($data[0]) && (!isset($data[0]['login']) || !isset($data[0]['password_hash']))) {
+            throw new InvalidArgumentException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
         }
 
         return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);
