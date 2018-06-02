@@ -39,7 +39,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 
 ```php
     if ($request->isSuccessful()) {
-        $results = $request->getResult();    // Tet the result data
+        $results = $request->getResult();    // Get the result data
     } else {
         echo $request->getReason();  // Print request failure reason
     }
