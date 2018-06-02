@@ -1,15 +1,16 @@
-# e621 API
+# e621 API [![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
 
-[![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
+Simple wrapper for e621.net API written in PHP.
 
-Simple wrapper for e621.net API.
-
-**This class is currently in development, most of the stuff was not tested and not every method in entities is implemented and documented yet.**
+**This class is currently in development, most of the stuff was not tested and not every method in entities is implemented yet.**
 
 ## Table of Contents
 - [Instructions](#instructions)
     - [Installation](#installation)
     - [Usage](#usage)
+    - [Authentication](#authentication)
+- [Methods](#methods)
+- [License](#license)
 
 ## Instructions
 ### Installation
@@ -31,7 +32,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 - Perform request with parameters:
 
 ```php
-    $request = $api->postIndex(['tags' => 'falvie cat order:>score', 'limit' => 25]);
+    $request = $api->postIndex(['tags' => 'cat order:score', 'limit' => 25]);
 ```
 
 - This will return `Response` object, to get the actual data we make sure the request was successful first before getting result data:
@@ -112,8 +113,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     }
 ```
 
-
-#### Logging in
+### Authentication
 
 Some actions require logging in to execute, to authenticate you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
 
@@ -121,9 +121,112 @@ Some actions require logging in to execute, to authenticate you can either pass 
     $api = new E621('My project');
     $api->setAuth('login', 'api_key');  // Set login data
     $request = $api->dmailInbox();
-    $api->unsetAuth(); // Remove login data
+    $api->unsetAuth();                  // Remove login data
 ```
 
+## Methods
+
+See [official API documentation](https://e621.net/help/show/api).
+
+- **postCreate** (array $params)  **requires login**
+- **postUpdate** (array $params)  **requires login**
+- **postShow** (array $params)
+- **postCheckMd5** (array $params)
+- **postTags** (array $params)
+- **postIndex** (array $params)
+- **postFlag** (array $params)  **requires login**
+- **postDestroy** (array $params)  **requires login**
+- **postDeletedIndex** (array $params)
+- **postPopularByDay** (array $params)
+- **postPopularByWeek** (array $params)
+- **postPopularByMonth** (array $params)
+- **postRevertTags** (array $params)  **requires login**
+- **postVote** (array $params)  **requires login**
+- **tagIndex** (array $params)
+- **tagShow** (array $params)
+- **tagUpdate** (array $params)  **requires login**
+- **tagRelated** (array $params)
+- **tagAliasIndex** (array $params)
+- **tagImplicationIndex** (array $params)
+- **artistIndex** (array $params)
+- **artistCreate** (array $params)  **requires login**
+- **artistUpdate** (array $params)  **requires login**
+- **artistDestroy** (array $params)  **requires login**
+- **commentShow** (array $params)
+- **commentIndex** (array $params)
+- **commentSearch** (array $params)
+- **commentCreate** (array $params)  **requires login**
+- **commentUpdate** (array $params)  **requires login**
+- **commentDestroy** (array $params)  **requires login**
+- **commentHide** (array $params)  **requires login**
+- **commentUnhide** (array $params)  **requires login**
+- **commentVote** (array $params)  **requires login**
+- **blipCreate** (array $params)  **requires login**
+- **blipUpdate** (array $params)  **requires login**
+- **blipIndex** (array $params)
+- **blipShow** (array $params)
+- **blipHide** (array $params)  **requires login**
+- **blipUnhide** (array $params)  **requires login**
+- **wikiIndex** (array $params)
+- **wikiCreate** (array $params)  **requires login**
+- **wikiUpdate** (array $params)  **requires login**
+- **wikiShow** (array $params)
+- **wikiDestroy** (array $params)  **requires login**
+- **wikiLock** (array $params)  **requires login**
+- **wikiUnlock** (array $params)  **requires login**
+- **wikiRevert** (array $params)  **requires login**
+- **wikiHistory** (array $params)
+- **wikiRecentChanges** (array $params)
+- **noteIndex** (array $params)
+- **noteSearch** (array $params)
+- **noteHistory** (array $params)
+- **noteRevert** (array $params)  **requires login**
+- **noteUpdate** (array $params)  **requires login**
+- **userIndex** (array $params)
+- **userShow** (array $params)
+- **userRecordShow** (array $params)
+- **dmailCreate** (array $params)  **requires login**
+- **dmailInbox** (array $params)  **requires login**
+- **dmailShow** (array $params)  **requires login**
+- **dmailHide** (array $params)  **requires login**
+- **dmailUnhide** (array $params)  **requires login**
+- **dmailHideAll** (array $params)  **requires login**
+- **dmailUnhideAll** (array $params)  **requires login**
+- **dmailMarkAllRead** (array $params)  **requires login**
+- **forumCreate** (array $params)
+- **forumUpdate** (array $params)
+- **forumIndex** (array $params)
+- **forumSearch** (array $params)
+- **forumShow** (array $params)
+- **forumHide** (array $params)  **requires login**
+- **forumUnhide** (array $params)  **requires login**
+- **poolIndex** (array $params)
+- **poolShow** (array $params)
+- **poolUpdate** (array $params)  **requires login**
+- **poolCreate** (array $params)  **requires login**
+- **poolDestroy** (array $params)  **requires login**
+- **poolAddPost** (array $params)  **requires login**
+- **poolRemovePost** (array $params)  **requires login**
+- **setIndex** (array $params)
+- **setShow** (array $params)
+- **setCreate** (array $params)  **requires login**
+- **setUpdate** (array $params)  **requires login**
+- **setAddPost** (array $params)  **requires login**
+- **setRemovePost** (array $params)  **requires login**
+- **setDestroy** (array $params)  **requires login**
+- **setMaintainers** (array $params)  **requires login**
+- **setMaintainerIndex** (array $params)  **requires login**
+- **setMaintainerCreate** (array $params)  **requires login**
+- **setMaintainerDestroy** (array $params)  **requires login**
+- **setMaintainerApprove** (array $params)  **requires login**
+- **setMaintainerDeny** (array $params)  **requires login**
+- **setMaintainerBlock** (array $params)  **requires login**
+- **favoriteListUsers** (array $params)
+- **postTagHistoryIndex** (array $params)
+- **postFlagHistoryIndex** (array $params)
+- **ticketCreate** (array $params)  **requires login**
+- **ticketIndex** (array $params)
+- **ticketShow** (array $params)
 
 ## License
 
