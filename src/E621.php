@@ -761,33 +761,25 @@ class E621
      * E621 constructor
      *
      * @param string $user_agent
-     * @param array  $custom_options
+     * @param array  $options
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($user_agent, array $custom_options = null)
+    public function __construct($user_agent = null, array $options = [])
     {
         if ($user_agent !== null && !is_string($user_agent)) {
             throw new \InvalidArgumentException('Argument "user_agent" must be a string');
         }
 
-        $options = [
+        $default_options = [
             'base_uri' => self::BASE_URI,
             'headers'  => [
-                'User-Agent' => $user_agent . ' (E621API/' . self::VERSION . ' Guzzle/' . Client::VERSION . ' PHP/' . PHP_VERSION . ')',
+                'User-Agent' => $user_agent ?: 'E621API/' . self::VERSION . ' GuzzleHttp/' . Client::VERSION . ' PHP/' . PHP_VERSION,
                 'Accept'     => 'application/json',
             ],
         ];
 
-        if (strlen($options['headers']['User-Agent']) > 255) {
-            trigger_error('User-Agent field exceeds 255 characters!', E_USER_WARNING);
-        }
-
-        if (is_array($custom_options) && !empty($custom_options)) {
-            $options = array_merge($options, $custom_options);
-        }
-
-        $this->client = new Client($options);
+        $this->client = new Client(array_replace_recursive($default_options, $options));
     }
 
     /**
