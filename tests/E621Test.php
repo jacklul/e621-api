@@ -78,20 +78,20 @@ final class E621Test extends TestCase
         $this->api->setDebugLogHandler(['InvalidClass', 'debugLogHandler']);
     }
 
-    public function requestProgressHandler()
+    public function progressHandler()
     {
     }
 
-    public function testSetRequestProgressHandlerValid()
+    public function testSetProgressHandlerValid()
     {
-        $this->api->setRequestProgressHandler([$this, 'requestProgressHandler']);
+        $this->api->setProgressHandler([$this, 'progressHandler']);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSetRequestProgressHandlerInvalid()
+    public function testSetProgressHandlerInvalid()
     {
-        $this->api->setRequestProgressHandler(['InvalidClass', 'requestProgressHandler']);
+        $this->api->setProgressHandler(['InvalidClass', 'progressHandler']);
     }
 }

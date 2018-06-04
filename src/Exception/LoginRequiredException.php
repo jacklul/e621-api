@@ -15,5 +15,4 @@ namespace jacklul\E621API\Exception;
  */
 class LoginRequiredException extends \Exception
 {
-
 }
