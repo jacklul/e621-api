@@ -845,28 +845,24 @@ class E621
             $result = json_decode($raw_result, true);
         } catch (RequestException $e) {
             $this->debugLog($e);
-            if ($e->getResponse()) {
-                if ($e->getResponse()->getStatusCode() !== 200) {
-                    $result = $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase();
-                } else {
-                    $result = (string)$e->getResponse()->getBody();
-                }
 
-                $raw_result = $result;
-            } else {
-                $result = 'Empty response / Request timed out';
-                $raw_result = null;
+            $result = $e->getMessage();
+            $raw_result = null;
+
+            if ($e->getResponse() !== null && $e->getResponse()->getBody() !== null) {
+                $raw_result = $e->getResponse()->getBody();
+                $result = json_decode($raw_result, true);
+
+                if (!is_array($result)) {
+                    $result = 'Request resulted in a `' . $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase() . '` response';
+                }
+            }
+
+            if (!is_array($result)) {
+                $result = ['success' => false, 'reason' => $result];
             }
         } finally {
             $this->endDebugStream();
-
-            if (!is_array($result)) {
-                if (preg_match("/<[^<]+>/", $result) !== false) {
-                    $result = 'HTML data returned';
-                }
-
-                $result = ['success' => false, 'reason' => $result, 'raw_result' => $raw_result];
-            }
         }
 
         // Search for result class if we don't have one

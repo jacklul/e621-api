@@ -16,7 +16,8 @@ use InvalidArgumentException;
  * @method bool   getSuccess()   Is the request successful?
  * @method mixed  getResult()    Result of the request (usually array containing objects)
  * @method string getRawResult() Raw result of the request (usually JSON string)
- * @method string getReason()    Description of the unsuccessful / failed request
+ * @method string getReason()    Description of the failed request
+ * @method string getMessage()   long description of the failed request
  */
 class Response extends Entity
 {
@@ -40,6 +41,10 @@ class Response extends Entity
                 'success' => false,
                 'reason'  => $result['reason'],
             ];
+
+            if (isset($result['message'])) {
+                $data['message'] = $result['message'];
+            }
         } elseif (count($result) === 0) {
             $data = [
                 'success' => true,
