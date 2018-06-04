@@ -767,8 +767,8 @@ class E621
      */
     public function __construct($user_agent, array $custom_options = null)
     {
-        if (empty($user_agent) && $user_agent !== false) {
-            throw new \InvalidArgumentException('Argument "user_agent" must be set!');
+        if ($user_agent !== null && !is_string($user_agent)) {
+            throw new \InvalidArgumentException('Argument "user_agent" must be a string');
         }
 
         $options = [
@@ -802,7 +802,7 @@ class E621
     public function __call($action, array $data = [])
     {
         if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
-            throw new \InvalidArgumentException('Action "' . $action . '" doesn\'t exist!');
+            throw new \InvalidArgumentException('Action "' . $action . '" doesn\'t exist');
         }
 
         if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true) {
@@ -811,7 +811,7 @@ class E621
                     $data[0]['login'] = $this->auth['login'];
                     $data[0]['password_hash'] = $this->auth['password_hash'];
                 } else {
-                    throw new LoginRequiredException('Action "' . $action . '" require logging in, provide "login" and "password_hash" parameters!');
+                    throw new LoginRequiredException('Action "' . $action . '" requires logging in');
                 }
             }
         }
@@ -833,7 +833,7 @@ class E621
     private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
     {
         if (empty($path)) {
-            throw new \InvalidArgumentException('Argument "path" cannot be empty!');
+            throw new \InvalidArgumentException('Argument "path" cannot be empty');
         }
 
         if (strtoupper($method) === 'GET') {
@@ -841,7 +841,7 @@ class E621
         } elseif (strtoupper($method) === 'POST') {
             $options = $this->prepareRequestParams($data);
         } else {
-            throw new \RuntimeException('Unsupported request method!');
+            throw new \RuntimeException('Unsupported request method');
         }
 
         ($this->progress_handler !== null && is_callable($this->progress_handler)) && $options['progress'] = $this->progress_handler;
@@ -966,12 +966,12 @@ class E621
      *
      * @throws \InvalidArgumentException
      */
-    public function setRequestProgressHandler($progress_handler)
+    public function setProgressHandler($progress_handler)
     {
         if ($progress_handler !== null && is_callable($progress_handler)) {
             $this->progress_handler = $progress_handler;
         } else {
-            throw new \InvalidArgumentException('Argument "progress_handler" must be callable!');
+            throw new \InvalidArgumentException('Argument "progress_handler" must be a callable');
         }
     }
 
@@ -987,7 +987,7 @@ class E621
         if ($debug_log_handler !== null && is_callable($debug_log_handler)) {
             $this->debug_log_handler = $debug_log_handler;
         } else {
-            throw new \InvalidArgumentException('Argument "debug_log_handler" must be callable!');
+            throw new \InvalidArgumentException('Argument "debug_log_handler" must be a callable');
         }
     }
 
