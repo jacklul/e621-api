@@ -43,7 +43,9 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     if ($request->isSuccessful()) {
         $results = $request->getResult();    // Get the result data
     } else {
-        echo $request->getReason();  // Print request failure reason
+        echo $request->getReason();     // Failure reason
+        echo $request->getMessage();    // Failure dscription message (when available)
+        echo $request->getRawResult();  // Get raw response
     }
 ```
 
