@@ -999,14 +999,14 @@ class E621
      *
      * @throws \InvalidArgumentException
      */
-    public function setAuth($login, $api_key)
+    public function login($login, $api_key)
     {
         if (empty($login) || !is_string($login)) {
-            throw new \InvalidArgumentException('Argument "login" cannot be empty and must be a string!');
+            throw new \InvalidArgumentException('Argument "login" cannot be empty and must be a string');
         }
 
         if (empty($login) || !is_string($api_key)) {
-            throw new \InvalidArgumentException('Argument "api_key" cannot be empty and must be a string!');
+            throw new \InvalidArgumentException('Argument "api_key" cannot be empty and must be a string');
         }
 
         $this->auth['login'] = $login;
@@ -1016,7 +1016,7 @@ class E621
     /**
      * Deletes auth data
      */
-    public function unsetAuth()
+    public function logout()
     {
         $this->auth = null;
     }

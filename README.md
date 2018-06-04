@@ -119,9 +119,10 @@ Some actions require logging in to execute, to authenticate you can either pass 
 
 ```php
     $api = new E621('My project');
-    $api->setAuth('login', 'api_key');  // Set login data
+    $api->login('login', 'api_key');  // Set login data
     $request = $api->dmailInbox();
-    $api->unsetAuth();                  // Remove login data
+    $api->logout();                   // Remove login data
+```
 ```
 
 ## Methods
