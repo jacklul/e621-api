@@ -35,16 +35,16 @@ final class E621Test extends TestCase
         $this->api = null;
     }
 
-    public function testConstructWithoutUserAgent()
+    public function testConstructWithInvalidUserAgent()
     {
         if ((float)phpversion() >= 7.1) {
             if (method_exists($this, 'setExpectedException')) {
-                $this->setExpectedException(\ArgumentCountError::class);
+                $this->setExpectedException(\InvalidArgumentException::class);
             } elseif (method_exists($this, 'expectException')) {
-                $this->expectException(\ArgumentCountError::class);
+                $this->expectException(\InvalidArgumentException::class);
             }
 
-            new E621();
+            new E621([]);
         }
     }
 
