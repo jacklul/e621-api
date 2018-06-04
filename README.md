@@ -8,18 +8,20 @@ Simple wrapper for e621.net API written in PHP.
 - [Instructions](#instructions)
     - [Installation](#installation)
     - [Usage](#usage)
-    - [Authentication](#authentication)
-- [Methods](#methods)
+    - [Logging in](#logging-in)
+    - [Miscellaneous](#miscellaneous)
+- [API Methods](#api-methods)
 - [License](#license)
 
 ## Instructions
+
 ### Installation
 
 Install this package through [Composer](https://github.com/composer/composer) - `composer require jacklul/e621-api`.
 
 ### Usage
 
-- Initialize the object with user-agent:
+- Initialize the object with custom user-agent:
 
 ```php
     require 'vendor/autoload.php';
@@ -113,7 +115,7 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     }
 ```
 
-### Authentication
+### Logging in
 
 Some actions require logging in to execute, to authenticate you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
 
@@ -123,9 +125,22 @@ Some actions require logging in to execute, to authenticate you can either pass 
     $request = $api->dmailInbox();
     $api->logout();                   // Remove login data
 ```
+
+### Miscellaneous
+
+You can set progress handler through **Guzzle**'s options or after initializing `E621` object using:
+
+```php
+    $api->setProgressHandler([$this, 'progress']);
 ```
 
-## Methods
+To set a function for detailed logging of each request use:
+
+```php
+    $api->setDebugLogHandler([$this, 'logger']);
+```
+
+## API Methods
 
 See [official API documentation](https://e621.net/help/show/api).
 
