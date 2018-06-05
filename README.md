@@ -142,109 +142,116 @@ To set a function for detailed logging of each request use:
     $api->setDebugLogHandler([$this, 'logger']);
 ```
 
+To unset those handlers pass `NULL` as the argument:
+
+```php
+    $api->setProgressHandler(null);
+    $api->setDebugLogHandler(null);
+```
+
 ## API Methods
 
 See [official API documentation](https://e621.net/help/show/api).
 
-- **postCreate** (array $params)  **requires login**
-- **postUpdate** (array $params)  **requires login**
-- **postShow** (array $params)
-- **postCheckMd5** (array $params)
-- **postTags** (array $params)
-- **postIndex** (array $params)
-- **postFlag** (array $params)  **requires login**
-- **postDestroy** (array $params)  **requires login**
-- **postDeletedIndex** (array $params)
-- **postPopularByDay** (array $params)
-- **postPopularByWeek** (array $params)
-- **postPopularByMonth** (array $params)
-- **postRevertTags** (array $params)  **requires login**
-- **postVote** (array $params)  **requires login**
-- **tagIndex** (array $params)
-- **tagShow** (array $params)
-- **tagUpdate** (array $params)  **requires login**
-- **tagRelated** (array $params)
-- **tagAliasIndex** (array $params)
-- **tagImplicationIndex** (array $params)
-- **artistIndex** (array $params)
-- **artistCreate** (array $params)  **requires login**
-- **artistUpdate** (array $params)  **requires login**
-- **artistDestroy** (array $params)  **requires login**
-- **commentShow** (array $params)
-- **commentIndex** (array $params)
-- **commentSearch** (array $params)
-- **commentCreate** (array $params)  **requires login**
-- **commentUpdate** (array $params)  **requires login**
-- **commentDestroy** (array $params)  **requires login**
-- **commentHide** (array $params)  **requires login**
-- **commentUnhide** (array $params)  **requires login**
-- **commentVote** (array $params)  **requires login**
-- **blipCreate** (array $params)  **requires login**
-- **blipUpdate** (array $params)  **requires login**
-- **blipIndex** (array $params)
-- **blipShow** (array $params)
-- **blipHide** (array $params)  **requires login**
-- **blipUnhide** (array $params)  **requires login**
-- **wikiIndex** (array $params)
-- **wikiCreate** (array $params)  **requires login**
-- **wikiUpdate** (array $params)  **requires login**
-- **wikiShow** (array $params)
-- **wikiDestroy** (array $params)  **requires login**
-- **wikiLock** (array $params)  **requires login**
-- **wikiUnlock** (array $params)  **requires login**
-- **wikiRevert** (array $params)  **requires login**
-- **wikiHistory** (array $params)
-- **wikiRecentChanges** (array $params)
-- **noteIndex** (array $params)
-- **noteSearch** (array $params)
-- **noteHistory** (array $params)
-- **noteRevert** (array $params)  **requires login**
-- **noteUpdate** (array $params)  **requires login**
-- **userIndex** (array $params)
-- **userShow** (array $params)
-- **userRecordShow** (array $params)
-- **dmailCreate** (array $params)  **requires login**
-- **dmailInbox** (array $params)  **requires login**
-- **dmailShow** (array $params)  **requires login**
-- **dmailHide** (array $params)  **requires login**
-- **dmailUnhide** (array $params)  **requires login**
-- **dmailHideAll** (array $params)  **requires login**
-- **dmailUnhideAll** (array $params)  **requires login**
-- **dmailMarkAllRead** (array $params)  **requires login**
-- **forumCreate** (array $params)
-- **forumUpdate** (array $params)
-- **forumIndex** (array $params)
-- **forumSearch** (array $params)
-- **forumShow** (array $params)
-- **forumHide** (array $params)  **requires login**
-- **forumUnhide** (array $params)  **requires login**
-- **poolIndex** (array $params)
-- **poolShow** (array $params)
-- **poolUpdate** (array $params)  **requires login**
-- **poolCreate** (array $params)  **requires login**
-- **poolDestroy** (array $params)  **requires login**
-- **poolAddPost** (array $params)  **requires login**
-- **poolRemovePost** (array $params)  **requires login**
-- **setIndex** (array $params)
-- **setShow** (array $params)
-- **setCreate** (array $params)  **requires login**
-- **setUpdate** (array $params)  **requires login**
-- **setAddPost** (array $params)  **requires login**
-- **setRemovePost** (array $params)  **requires login**
-- **setDestroy** (array $params)  **requires login**
-- **setMaintainers** (array $params)  **requires login**
-- **setMaintainerIndex** (array $params)  **requires login**
-- **setMaintainerCreate** (array $params)  **requires login**
-- **setMaintainerDestroy** (array $params)  **requires login**
-- **setMaintainerApprove** (array $params)  **requires login**
-- **setMaintainerDeny** (array $params)  **requires login**
-- **setMaintainerBlock** (array $params)  **requires login**
-- **favoriteListUsers** (array $params)
-- **postTagHistoryIndex** (array $params)
-- **postFlagHistoryIndex** (array $params)
-- **ticketCreate** (array $params)  **requires login**
-- **ticketIndex** (array $params)
-- **ticketShow** (array $params)
+- **postCreate** - requires login
+- **postUpdate** - requires login
+- **postShow**
+- **postCheckMd5**
+- **postTags**
+- **postIndex**
+- **postFlag** - requires login
+- **postDestroy** - requires login
+- **postDeletedIndex**
+- **postPopularByDay**
+- **postPopularByWeek**
+- **postPopularByMonth**
+- **postRevertTags** - requires login
+- **postVote** - requires login
+- **tagIndex**
+- **tagShow**
+- **tagUpdate** - requires login
+- **tagRelated**
+- **tagAliasIndex**
+- **tagImplicationIndex**
+- **artistIndex**
+- **artistCreate** - requires login
+- **artistUpdate** - requires login
+- **artistDestroy** - requires login
+- **commentShow**
+- **commentIndex**
+- **commentSearch**
+- **commentCreate** - requires login
+- **commentUpdate** - requires login
+- **commentDestroy** - requires login
+- **commentHide** - requires login
+- **commentUnhide** - requires login
+- **commentVote** - requires login
+- **blipCreate** - requires login
+- **blipUpdate** - requires login
+- **blipIndex**
+- **blipShow**
+- **blipHide** - requires login
+- **blipUnhide** - requires login
+- **wikiIndex**
+- **wikiCreate** - requires login
+- **wikiUpdate** - requires login
+- **wikiShow**
+- **wikiDestroy** - requires login
+- **wikiLock** - requires login
+- **wikiUnlock** - requires login
+- **wikiRevert** - requires login
+- **wikiHistory**
+- **wikiRecentChanges**
+- **noteIndex**
+- **noteSearch**
+- **noteHistory**
+- **noteRevert** - requires login
+- **noteUpdate** - requires login
+- **userIndex**
+- **userShow**
+- **userRecordShow**
+- **dmailCreate** - requires login
+- **dmailInbox** - requires login
+- **dmailShow** - requires login
+- **dmailHide** - requires login
+- **dmailUnhide** - requires login
+- **dmailHideAll** - requires login
+- **dmailUnhideAll** - requires login
+- **dmailMarkAllRead** - requires login
+- **forumCreate**
+- **forumUpdate**
+- **forumIndex**
+- **forumSearch**
+- **forumShow**
+- **forumHide** - requires login
+- **forumUnhide** - requires login
+- **poolIndex**
+- **poolShow**
+- **poolUpdate** - requires login
+- **poolCreate** - requires login
+- **poolDestroy** - requires login
+- **poolAddPost** - requires login
+- **poolRemovePost** - requires login
+- **setIndex**
+- **setShow**
+- **setCreate** - requires login
+- **setUpdate** - requires login
+- **setAddPost** - requires login
+- **setRemovePost** - requires login
+- **setDestroy** - requires login
+- **setMaintainers** - requires login
+- **setMaintainerIndex** - requires login
+- **setMaintainerCreate** - requires login
+- **setMaintainerDestroy** - requires login
+- **setMaintainerApprove** - requires login
+- **setMaintainerDeny** - requires login
+- **setMaintainerBlock** - requires login
+- **favoriteListUsers**
+- **postTagHistoryIndex**
+- **postFlagHistoryIndex**
+- **ticketCreate** - requires login
+- **ticketIndex**
+- **ticketShow**
 
 ## License
 

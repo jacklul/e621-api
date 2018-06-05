@@ -11,6 +11,7 @@
 namespace jacklul\E621API\Entity;
 
 /**
+ * This is generic entity assigned to responses that mostly manipulate the data
  */
 class Generic extends Entity
 {

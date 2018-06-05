@@ -11,6 +11,7 @@
 namespace jacklul\E621API\Entity;
 
 /**
+ * This is 'magic' entity that sets properties based on array provided to the constructor
  */
 abstract class Entity
 {

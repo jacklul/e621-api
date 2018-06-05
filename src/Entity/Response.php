@@ -14,7 +14,7 @@ use InvalidArgumentException;
 
 /**
  * @method bool   getSuccess()   Is the request successful?
- * @method mixed  getResult()    Result of the request (usually array containing objects)
+ * @method mixed  getResult()    Result of the request (usually array containing objects, empty array when no results)
  * @method string getRawResult() Raw result of the request (usually JSON string)
  * @method string getReason()    Description of the failed request
  * @method string getMessage()   long description of the failed request

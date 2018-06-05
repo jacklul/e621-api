@@ -168,16 +168,16 @@ class E621
      */
     private $actions = [
         'postCreate'           => [
-            'path'       => 'post/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'postUpdate'           => [
-            'path'       => 'post/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'postShow'             => [
             'path'   => 'post/show.json',
@@ -200,16 +200,16 @@ class E621
             'class'  => Post::class,
         ],
         'postFlag'             => [
-            'path'       => 'post/flag.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/flag.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'postDestroy'          => [
-            'path'       => 'post/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'postDeletedIndex'     => [
             'path'   => 'post/deleted_index.json',
@@ -232,16 +232,16 @@ class E621
             'class'  => Post::class,
         ],
         'postRevertTags'       => [
-            'path'       => 'post/revert_tags.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/revert_tags.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'postVote'             => [
-            'path'       => 'post/vote.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'post/vote.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'tagIndex'             => [
             'path'   => 'tag/index.json',
@@ -254,10 +254,10 @@ class E621
             'class'  => Tag::class,
         ],
         'tagUpdate'            => [
-            'path'       => 'tag/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'tag/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'tagRelated'           => [
             'path'   => 'tag/related.json',
@@ -280,22 +280,22 @@ class E621
             'class'  => Artist::class,
         ],
         'artistCreate'         => [
-            'path'       => 'artist/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'artist/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'artistUpdate'         => [
-            'path'       => 'artist/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'artist/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'artistDestroy'        => [
-            'path'       => 'artist/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'artist/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentShow'          => [
             'path'   => 'comment/show.json',
@@ -313,52 +313,52 @@ class E621
             'class'  => Comment::class,
         ],
         'commentCreate'        => [
-            'path'       => 'comment/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentUpdate'        => [
-            'path'       => 'comment/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentDestroy'       => [
-            'path'       => 'comment/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentHide'          => [
-            'path'       => 'comment/hide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/hide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentUnhide'        => [
-            'path'       => 'comment/unhide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/unhide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'commentVote'          => [
-            'path'       => 'comment/vote.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'comment/vote.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'blipCreate'           => [
-            'path'       => 'blip/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'blip/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'blipUpdate'           => [
-            'path'       => 'blip/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'blip/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'blipIndex'            => [
             'path'   => 'blip/index.json',
@@ -371,16 +371,16 @@ class E621
             'class'  => Blip::class,
         ],
         'blipHide'             => [
-            'path'       => 'blip/hide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'blip/hide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'blipUnhide'           => [
-            'path'       => 'blip/unhide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'blip/unhide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiIndex'            => [
             'path'   => 'wiki/index.json',
@@ -388,16 +388,16 @@ class E621
             'class'  => Wiki::class,
         ],
         'wikiCreate'           => [
-            'path'       => 'wiki/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiUpdate'           => [
-            'path'       => 'wiki/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiShow'             => [
             'path'   => 'wiki/show.json',
@@ -405,28 +405,28 @@ class E621
             'class'  => Wiki::class,
         ],
         'wikiDestroy'          => [
-            'path'       => 'wiki/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiLock'             => [
-            'path'       => 'wiki/lock.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/lock.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiUnlock'           => [
-            'path'       => 'wiki/unlock.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/unlock.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiRevert'           => [
-            'path'       => 'wiki/revert.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'wiki/revert.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'wikiHistory'          => [
             'path'   => 'wiki/history.json',
@@ -454,16 +454,16 @@ class E621
             'class'  => NoteHistory::class,
         ],
         'noteRevert'           => [
-            'path'       => 'note/revert.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'note/revert.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'noteUpdate'           => [
-            'path'       => 'note/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'note/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'userIndex'            => [
             'path'   => 'user/index.json',
@@ -481,64 +481,64 @@ class E621
             'class'  => UserRecord::class,
         ],
         'dmailCreate'          => [
-            'path'       => 'dmail/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'dmailInbox'           => [
-            'path'       => 'dmail/inbox.json',
-            'method'     => 'GET',
-            'class'      => Dmail::class,
-            'need_login' => true,
+            'path'          => 'dmail/inbox.json',
+            'method'        => 'GET',
+            'class'         => Dmail::class,
+            'require_login' => true,
         ],
         'dmailShow'            => [
-            'path'       => 'dmail/show.json',
-            'method'     => 'GET',
-            'class'      => Dmail::class,
-            'need_login' => true,
+            'path'          => 'dmail/show.json',
+            'method'        => 'GET',
+            'class'         => Dmail::class,
+            'require_login' => true,
         ],
         'dmailHide'            => [
-            'path'       => 'dmail/hide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/hide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'dmailUnhide'          => [
-            'path'       => 'dmail/unhide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/unhide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'dmailHideAll'         => [
-            'path'       => 'dmail/hide_all.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/hide_all.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'dmailUnhideAll'       => [
-            'path'       => 'dmail/unhide_all.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/unhide_all.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'dmailMarkAllRead'     => [
-            'path'       => 'dmail/mark_all_read.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'dmail/mark_all_read.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'forumCreate'          => [
-            'path'       => 'forum/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'forum/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'forumUpdate'          => [
-            'path'       => 'forum/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'forum/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'forumIndex'           => [
             'path'   => 'forum/index.json',
@@ -556,16 +556,16 @@ class E621
             'class'  => Forum::class,
         ],
         'forumHide'            => [
-            'path'       => 'forum/hide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'forum/hide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'forumUnhide'          => [
-            'path'       => 'forum/unhide.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'forum/unhide.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'poolIndex'            => [
             'path'   => 'pool/index.json',
@@ -578,34 +578,34 @@ class E621
             'class'  => Pool::class,
         ],
         'poolUpdate'           => [
-            'path'       => 'pool/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'pool/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'poolCreate'           => [
-            'path'       => 'pool/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'pool/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'poolDestroy'          => [
-            'path'       => 'pool/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'pool/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'poolAddPost'          => [
-            'path'       => 'pool/add_post.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'pool/add_post.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'poolRemovePost'       => [
-            'path'       => 'pool/remove_post.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'pool/remove_post.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setIndex'             => [
             'path'   => 'set/index.json',
@@ -618,76 +618,76 @@ class E621
             'class'  => Set::class,
         ],
         'setCreate'            => [
-            'path'       => 'set/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setUpdate'            => [
-            'path'       => 'set/update.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set/update.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setAddPost'           => [
-            'path'       => 'set/add_post.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set/add_post.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setRemovePost'        => [
-            'path'       => 'set/remove_post.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set/remove_post.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setDestroy'           => [
-            'path'       => 'set/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setMaintainers'       => [
-            'path'       => 'set/maintainers.json',
-            'method'     => 'GET',
-            'class'      => SetMaintainer::class,
-            'need_login' => true,
+            'path'          => 'set/maintainers.json',
+            'method'        => 'GET',
+            'class'         => SetMaintainer::class,
+            'require_login' => true,
         ],
         'setMaintainerIndex'   => [
-            'path'       => 'set_maintainer/index.json',
-            'method'     => 'GET',
-            'class'      => SetMaintainer::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/index.json',
+            'method'        => 'GET',
+            'class'         => SetMaintainer::class,
+            'require_login' => true,
         ],
         'setMaintainerCreate'  => [
-            'path'       => 'set_maintainer/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setMaintainerDestroy' => [
-            'path'       => 'set_maintainer/destroy.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setMaintainerApprove' => [
-            'path'       => 'set_maintainer/approve.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/approve.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setMaintainerDeny'    => [
-            'path'       => 'set_maintainer/deny.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/deny.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'setMaintainerBlock'   => [
-            'path'       => 'set_maintainer/block.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'set_maintainer/block.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'favoriteListUsers'    => [
             'path'   => 'favorite/list_users.json',
@@ -705,10 +705,10 @@ class E621
             'class'  => PostFlagHistory::class,
         ],
         'ticketCreate'         => [
-            'path'       => 'ticket/create.json',
-            'method'     => 'POST',
-            'class'      => Generic::class,
-            'need_login' => true,
+            'path'          => 'ticket/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
+            'require_login' => true,
         ],
         'ticketIndex'          => [
             'path'   => 'ticket/index.json',
@@ -794,16 +794,16 @@ class E621
     public function __call($action, array $data = [])
     {
         if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
-            throw new \InvalidArgumentException('Action "' . $action . '" doesn\'t exist');
+            throw new \InvalidArgumentException('Method "' . $action . '" doesn\'t exist');
         }
 
-        if (isset($this->actions[$action]['need_login']) && $this->actions[$action]['need_login'] === true) {
+        if (isset($this->actions[$action]['require_login']) && $this->actions[$action]['require_login'] === true) {
             if (isset($data[0]) && !isset($data[0]['login']) || !isset($data[0]['password_hash'])) {
                 if (isset($this->auth['login']) && isset($this->auth['password_hash'])) {
                     $data[0]['login'] = $this->auth['login'];
                     $data[0]['password_hash'] = $this->auth['password_hash'];
                 } else {
-                    throw new LoginRequiredException('Action "' . $action . '" requires logging in');
+                    throw new LoginRequiredException('Method "' . $action . '" requires logging in but no login data was provided');
                 }
             }
         }
@@ -833,7 +833,7 @@ class E621
         } elseif (strtoupper($method) === 'POST') {
             $options = $this->prepareRequestParams($data);
         } else {
-            throw new \RuntimeException('Unsupported request method');
+            throw new \RuntimeException('Unsupported request method, must be one of "GET, POST"');
         }
 
         ($this->progress_handler !== null && is_callable($this->progress_handler)) && $options['progress'] = $this->progress_handler;
@@ -843,6 +843,10 @@ class E621
             $response = $this->client->request($method, $path, $options);
             $raw_result = (string)$response->getBody();
             $result = json_decode($raw_result, true);
+
+            if (!is_array($result)) {
+                $result = ['success' => false, 'reason' => 'Invalid data returned', 'raw_result' => $raw_result];
+            }
         } catch (RequestException $e) {
             $this->debugLog($e);
 
@@ -860,12 +864,16 @@ class E621
 
             if (!is_array($result)) {
                 $result = ['success' => false, 'reason' => $result];
+
+                if ($raw_result !== null) {
+                    $result['raw_result'] = $raw_result;
+                }
             }
         } finally {
             $this->endDebugStream();
         }
 
-        // Search for result class if we don't have one
+        // Search for result class if we don't have one, this shouldn't happen but fail safe should be left anyway
         if (empty($class)) {
             $class = Generic::class;
             foreach ($this->actions as $key => $val) {
@@ -950,7 +958,7 @@ class E621
     /**
      * Set progress handler
      *
-     * @param callable $progress_handler
+     * @param callable|null $progress_handler
      *
      * @throws \InvalidArgumentException
      */
@@ -958,6 +966,8 @@ class E621
     {
         if ($progress_handler !== null && is_callable($progress_handler)) {
             $this->progress_handler = $progress_handler;
+        } elseif ($progress_handler === null) {
+            $this->progress_handler = null;
         } else {
             throw new \InvalidArgumentException('Argument "progress_handler" must be a callable');
         }
@@ -966,7 +976,7 @@ class E621
     /**
      * Set debug log handler
      *
-     * @param callable $debug_log_handler
+     * @param callable|null $debug_log_handler
      *
      * @throws \InvalidArgumentException
      */
@@ -974,6 +984,8 @@ class E621
     {
         if ($debug_log_handler !== null && is_callable($debug_log_handler)) {
             $this->debug_log_handler = $debug_log_handler;
+        } elseif ($debug_log_handler === null) {
+            $this->debug_log_handler = null;
         } else {
             throw new \InvalidArgumentException('Argument "debug_log_handler" must be a callable');
         }
@@ -997,8 +1009,10 @@ class E621
             throw new \InvalidArgumentException('Argument "api_key" cannot be empty and must be a string');
         }
 
-        $this->auth['login'] = $login;
-        $this->auth['password_hash'] = $api_key;
+        $this->auth = [
+            'login'         => $login,
+            'password_hash' => $api_key,
+        ];
     }
 
     /**
