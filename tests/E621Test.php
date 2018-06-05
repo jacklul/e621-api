@@ -4,6 +4,7 @@ namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_Error;
 
 final class E621Test extends TestCase
 {
@@ -25,6 +26,12 @@ final class E621Test extends TestCase
      */
     public function testConstructWithInvalidCustomOptions()
     {
+        if ((float)phpversion() < 7.0) {
+            /** @noinspection PhpUndefinedClassInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->setExpectedException(PHPUnit_Framework_Error::class);
+        }
+
         new E621('-', '');
     }
 
