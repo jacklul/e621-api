@@ -21,7 +21,7 @@ matrix:
 
 notifications:
   on_success: never
-  on_failure: never
+  on_failure: always
 
 git:
   depth: 1

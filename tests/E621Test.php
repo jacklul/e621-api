@@ -1,23 +1,10 @@
 <?php
-/**
- * This file is part of the e621 API package.
- *
- * (c) Jack'lul <jacklulcat@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @TODO test every public API method
- *
- * @package jacklul\E621API\Tests
- */
 final class E621Test extends TestCase
 {
     /**
@@ -25,73 +12,85 @@ final class E621Test extends TestCase
      */
     private $api;
 
-    protected function setUp()
-    {
-        $this->api = new E621('PHPUnit @ ' . php_uname());
-    }
-
-    protected function tearDown()
-    {
-        $this->api = null;
-    }
-
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testConstructWithInvalidUserAgent()
     {
-        if ((float)phpversion() >= 7.1) {
-            if (method_exists($this, 'setExpectedException')) {
-                $this->setExpectedException(\InvalidArgumentException::class);
-            } elseif (method_exists($this, 'expectException')) {
-                $this->expectException(\InvalidArgumentException::class);
-            }
-
-            new E621([]);
-        }
+        new E621([]);
     }
 
+    /**
+     * @expectedException \TypeError
+     */
     public function testConstructWithInvalidCustomOptions()
     {
-        if ((float)phpversion() >= 7.0) {
-            if (method_exists($this, 'setExpectedException')) {
-                $this->setExpectedException(\TypeError::class);
-            } elseif (method_exists($this, 'expectException')) {
-                $this->expectException(\TypeError::class);
+        new E621('-', '');
+    }
+
+    public function testDebugLogHandler()
+    {
+        $tmp = '';
+        $this->api->setDebugLogHandler(
+            function ($text) use (&$tmp) {
+                $tmp .= $text;
             }
+        );
 
-            new E621('test', '');
-        }
-    }
+        $this->api->postIndex(['limit' => 1]);
 
-    public function debugLogHandler($text)
-    {
-    }
-
-    public function testSetDebugLogHandlerValid()
-    {
-        $this->api->setDebugLogHandler([$this, 'debugLogHandler']);
+        $this->assertContains('Verbose HTTP Request output', $tmp);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSetDebugLogHandlerInvalid()
+    public function testInvalidDebugLogHandler()
     {
         $this->api->setDebugLogHandler(['InvalidClass', 'debugLogHandler']);
     }
 
-    public function progressHandler()
+    public function testUnsetDebugLogHandler()
     {
+        $this->api->setDebugLogHandler(null);
+        $this->assertTrue(true);
     }
 
-    public function testSetProgressHandlerValid()
+    public function testProgressHandler()
     {
-        $this->api->setProgressHandler([$this, 'progressHandler']);
+        $tmp = [];
+        $this->api->setProgressHandler(
+            function ($downloadTotal, $downloadedBytes, $uploadTotal, $uploadedBytes) use (&$tmp) {
+                $tmp = [
+                    'downloadTotal'   => $downloadTotal,
+                    'downloadedBytes' => $downloadedBytes,
+                    'uploadTotal'     => $uploadTotal,
+                    'uploadedBytes'   => $uploadedBytes,
+                ];
+            }
+        );
+
+        $this->api->postIndex(['limit' => 1]);
+
+        $this->assertGreaterThan(0, $tmp['downloadTotal']);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testSetProgressHandlerInvalid()
+    public function testInvalidProgressHandler()
     {
         $this->api->setProgressHandler(['InvalidClass', 'progressHandler']);
+    }
+
+    public function testUnsetProgressHandler()
+    {
+        $this->api->setProgressHandler(null);
+        $this->assertTrue(true);
+    }
+
+    protected function setUp()
+    {
+        $this->api = new E621('PHPUnit @ ' . php_uname());
     }
 }
