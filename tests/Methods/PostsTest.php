@@ -12,6 +12,13 @@ final class PostsTest extends TestCase
      */
     private $api;
 
+    protected function setUp()
+    {
+        if (!$this->api instanceof E621) {
+            $this->api = new E621('PHPUnit @ ' . php_uname());
+        }
+    }
+
     public function testPostListing()
     {
         $post_id = null;
@@ -26,12 +33,5 @@ final class PostsTest extends TestCase
         }
 
         $this->assertInternalType("int", $post_id);
-    }
-
-    protected function setUp()
-    {
-        if (!$this->api instanceof E621) {
-            $this->api = new E621('PHPUnit @ ' . php_uname());
-        }
     }
 }

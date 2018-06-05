@@ -4,7 +4,6 @@ namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Error;
 
 final class E621Test extends TestCase
 {
@@ -12,6 +11,11 @@ final class E621Test extends TestCase
      * @var E621
      */
     private $api;
+
+    protected function setUp()
+    {
+        $this->api = new E621('PHPUnit @ ' . php_uname());
+    }
 
     /**
      * @expectedException \InvalidArgumentException
@@ -29,7 +33,7 @@ final class E621Test extends TestCase
         if ((float)phpversion() < 7.0) {
             /** @noinspection PhpUndefinedClassInspection */
             /** @noinspection PhpUndefinedMethodInspection */
-            $this->setExpectedException(PHPUnit_Framework_Error::class);
+            $this->setExpectedException(\PHPUnit_Framework_Error::class);
         }
 
         new E621('-', '');
@@ -94,10 +98,5 @@ final class E621Test extends TestCase
     {
         $this->api->setProgressHandler(null);
         $this->assertTrue(true);
-    }
-
-    protected function setUp()
-    {
-        $this->api = new E621('PHPUnit @ ' . php_uname());
     }
 }

@@ -12,16 +12,16 @@ final class CommonsTest extends TestCase
      */
     private $api;
 
+    protected function setUp()
+    {
+        $this->api = new E621('PHPUnit @ ' . php_uname());
+    }
+
     /**
      * @expectedException \jacklul\E621API\Exception\LoginRequiredException
      */
     public function testLoginRequiredMethodWithoutLoginData()
     {
         $this->api->dmailInbox();
-    }
-
-    protected function setUp()
-    {
-        $this->api = new E621('PHPUnit @ ' . php_uname());
     }
 }
