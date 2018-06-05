@@ -1,8 +1,10 @@
 # Composer
 /vendor/
 /composer.lock
-/composer.phar
+
+# Project
+/examples/login.ini
+/examples/test.php
 
 # Others
 /.php_cs.cache
-/test.php
