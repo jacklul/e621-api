@@ -21,14 +21,26 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 
 ### Usage
 
-- Initialize the object with custom user-agent:
+- Initialize the `E621` object:
 
 ```php
     require 'vendor/autoload.php';
     
     use jacklul\E621API\E621;
     
-    $api = new E621('My project');
+    $api = new E621();
+```
+
+- You should specify custom user agent to identify your project:
+
+```php
+    $options = [
+        'headers'  => [
+            'User-Agent' => 'My project',
+        ],
+    ];
+    
+    $api = new E621($options);
 ```
 
 - Perform request with parameters:

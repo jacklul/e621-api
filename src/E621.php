@@ -760,21 +760,16 @@ class E621
     /**
      * E621 constructor
      *
-     * @param string $user_agent
-     * @param array  $options
+     * @param array $options
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($user_agent = null, array $options = [])
+    public function __construct(array $options = [])
     {
-        if ($user_agent !== null && !is_string($user_agent)) {
-            throw new \InvalidArgumentException('Argument "user_agent" must be a string');
-        }
-
         $default_options = [
             'base_uri' => self::BASE_URI,
             'headers'  => [
-                'User-Agent' => $user_agent ?: 'E621API/' . self::VERSION . ' GuzzleHttp/' . Client::VERSION . ' PHP/' . PHP_VERSION,
+                'User-Agent' => 'E621API/' . self::VERSION . ' GuzzleHttp/' . Client::VERSION . ' PHP/' . PHP_VERSION,
                 'Accept'     => 'application/json',
             ],
         ];
