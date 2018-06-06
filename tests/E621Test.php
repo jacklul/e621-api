@@ -8,17 +8,37 @@ use PHPUnit\Framework\TestCase;
 final class E621Test extends TestCase
 {
     /**
+     * @var string
+     */
+    private $phpunit_version;
+
+    /**
      * @var E621
      */
     private $api;
 
     protected function setUp()
     {
+        if ($this->phpunit_version === null) {
+            if (class_exists('\PHPUnit\Runner\Version')) {
+                /** @noinspection PhpUndefinedClassInspection */
+                $phpunit_version_string = explode(' by', \PHPUnit\Runner\Version::getVersionString())[0];
+            } elseif (class_exists('PHPUnit_Runner_Version')) {
+                /** @noinspection PhpUndefinedClassInspection */
+                $phpunit_version_string = explode(' by', \PHPUnit_Runner_Version::getVersionString())[0];
+            }
+
+            if (isset($phpunit_version_string)) {
+                preg_match('/((?:[0-9]+\.?)+)/', $phpunit_version_string, $matches);
+                $this->phpunit_version = $matches[1];
+            }
+        }
+
         $this->api = new E621(
             [
                 'headers' => [
-                    'User-Agent' => explode(' by', \PHPUnit\Runner\Version::getVersionString())[0] . ' @ ' . php_uname()
-                ]
+                    'User-Agent' => 'PHPUnit' . (isset($phpunit_version) ? ' ' . $phpunit_version : '') . ' @ ' . php_uname(),
+                ],
             ]
         );
     }
@@ -30,12 +50,18 @@ final class E621Test extends TestCase
 
     public function testConstructWithInvalidOptions()
     {
-        if ((float)phpversion() < 7.0) {
-            /** @noinspection PhpUndefinedClassInspection */
-            /** @noinspection PhpUndefinedMethodInspection */
-            $this->setExpectedException(\PHPUnit_Framework_Error::class);
+        if ((float)$this->phpunit_version < 6.5) {
+            if ((float)phpversion() < 7.0) {
+                /** @noinspection PhpUndefinedClassInspection */
+                /** @noinspection PhpUndefinedMethodInspection */
+                $this->setExpectedException(\PHPUnit_Framework_Error::class);
+            } else {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $this->setExpectedException(\TypeError::class);
+            }
         } else {
             /** @noinspection PhpParamsInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->expectException(\TypeError::class);
         }
 
@@ -55,11 +81,12 @@ final class E621Test extends TestCase
 
         $this->assertContains('Verbose HTTP Request output', $tmp);
 
-        if ((float)phpversion() < 7.0) {
+        if ((float)$this->phpunit_version < 6.5) {
             /** @noinspection PhpUndefinedMethodInspection */
             $this->setExpectedException(\InvalidArgumentException::class);
         } else {
             /** @noinspection PhpParamsInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->expectException(\InvalidArgumentException::class);
         }
 
@@ -86,11 +113,12 @@ final class E621Test extends TestCase
 
         $this->assertGreaterThan(0, $tmp['downloadTotal']);
 
-        if ((float)phpversion() < 7.0) {
+        if ((float)$this->phpunit_version < 6.5) {
             /** @noinspection PhpUndefinedMethodInspection */
             $this->setExpectedException(\InvalidArgumentException::class);
         } else {
             /** @noinspection PhpParamsInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
             $this->expectException(\InvalidArgumentException::class);
         }
 
