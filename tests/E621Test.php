@@ -14,29 +14,32 @@ final class E621Test extends TestCase
 
     protected function setUp()
     {
-        $this->api = new E621('PHPUnit @ ' . php_uname());
+        $this->api = new E621(
+            [
+                'headers' => [
+                    'User-Agent' => explode(' by', \PHPUnit\Runner\Version::getVersionString())[0] . ' @ ' . php_uname()
+                ]
+            ]
+        );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructWithInvalidUserAgent()
+    protected function tearDown()
     {
-        new E621([]);
+        $this->api = null;
     }
 
-    /**
-     * @expectedException \TypeError
-     */
-    public function testConstructWithInvalidCustomOptions()
+    public function testConstructWithInvalidOptions()
     {
         if ((float)phpversion() < 7.0) {
             /** @noinspection PhpUndefinedClassInspection */
             /** @noinspection PhpUndefinedMethodInspection */
             $this->setExpectedException(\PHPUnit_Framework_Error::class);
+        } else {
+            /** @noinspection PhpParamsInspection */
+            $this->expectException(\TypeError::class);
         }
 
-        new E621('-', '');
+        new E621(null);
     }
 
     public function testDebugLogHandler()
@@ -51,20 +54,18 @@ final class E621Test extends TestCase
         $this->api->postIndex(['limit' => 1]);
 
         $this->assertContains('Verbose HTTP Request output', $tmp);
-    }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidDebugLogHandler()
-    {
+        if ((float)phpversion() < 7.0) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->setExpectedException(\InvalidArgumentException::class);
+        } else {
+            /** @noinspection PhpParamsInspection */
+            $this->expectException(\InvalidArgumentException::class);
+        }
+
         $this->api->setDebugLogHandler(['InvalidClass', 'debugLogHandler']);
-    }
 
-    public function testUnsetDebugLogHandler()
-    {
-        $this->api->setDebugLogHandler(null);
-        $this->assertTrue(true);
+        $this->api->setDebugLogHandler(null);   // Nothing should happen
     }
 
     public function testProgressHandler()
@@ -84,19 +85,41 @@ final class E621Test extends TestCase
         $this->api->postIndex(['limit' => 1]);
 
         $this->assertGreaterThan(0, $tmp['downloadTotal']);
+
+        if ((float)phpversion() < 7.0) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->setExpectedException(\InvalidArgumentException::class);
+        } else {
+            /** @noinspection PhpParamsInspection */
+            $this->expectException(\InvalidArgumentException::class);
+        }
+
+        $this->api->setProgressHandler(['InvalidClass', 'progressHandler']);
+
+        $this->api->setProgressHandler(null);   // Nothing should happen
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \jacklul\E621API\Exception\LoginRequiredException
      */
-    public function testInvalidProgressHandler()
+    public function testLoginRequiredMethodWithoutLoginData()
     {
-        $this->api->setProgressHandler(['InvalidClass', 'progressHandler']);
+        $this->api->dmailInbox();
     }
 
-    public function testUnsetProgressHandler()
+    public function testPostListingMethod()
     {
-        $this->api->setProgressHandler(null);
-        $this->assertTrue(true);
+        $post_id = null;
+        $result = $this->api->postIndex(['limit' => 1]);
+
+        if ($result->isSuccessful()) {
+            $results = $result->getResult();
+
+            /** @var \jacklul\E621API\Entity\Post $post */
+            $post = $results[0];
+            $post_id = $post->getId();
+        }
+
+        $this->assertInternalType("int", $post_id);
     }
 }
