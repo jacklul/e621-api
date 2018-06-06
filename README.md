@@ -53,74 +53,15 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 
 ```php
     if ($request->isSuccessful()) {
-        $results = $request->getResult();    // Get the result data
+        $results = $request->getResult();    // Result data (usually array of objects, empty array means no results)
     } else {
         echo $request->getReason();     // Failure reason
-        echo $request->getMessage();    // Failure dscription message (when available)
-        echo $request->getRawResult();  // Get raw response
+        echo $request->getMessage();    // Failure descriptive message (when available)
+        echo $request->getRawResult();  // Raw response (when available)
     }
 ```
 
-- In case of `postIndex()` method result will be array of `Post` objects:
-
-```php
-   Array
-   (
-       [0] => jacklul\E621API\Entity\Post Object
-           (
-               [id] => 1194987
-               [tags] => 2017 anthro armband bandage cat clothed clothing day digitigrade falvie feathers feline foot_wraps fur hair hi_res male mammal melee_weapon outside scabbard
-   scarf sheathed_weapon short_hair skimpy sky snow snowing solo standing step_pose sword weapon white_fur white_hair wraps
-               [locked_tags] =>
-               [description] =>
-               [created_at] => Array
-                   (
-                       [json_class] => Time
-                       [s] => 1492637589
-                       [n] => 932211000
-                   )
-   
-               [creator_id] => 169756
-               [author] => Millcore
-               [change] => 11649500
-               [source] => https://www.furaffinity.net/view/23264446/
-               [score] => 49
-               [fav_count] => 104
-               [md5] => d9988923347357a24ade031b9997de63
-               [file_size] => 1776405
-               [file_url] => https://static1.e621.net/data/d9/98/d9988923347357a24ade031b9997de63.png
-               [file_ext] => png
-               [preview_url] => https://static1.e621.net/data/preview/d9/98/d9988923347357a24ade031b9997de63.jpg
-               [preview_width] => 96
-               [preview_height] => 150
-               [sample_url] => https://static1.e621.net/data/sample/d9/98/d9988923347357a24ade031b9997de63.jpg
-               [sample_width] => 517
-               [sample_height] => 800
-               [rating] => s
-               [status] => active
-               [width] => 776
-               [height] => 1200
-               [has_comments] => 1
-               [has_notes] =>
-               [has_children] =>
-               [children] =>
-               [parent_id] =>
-               [artist] => Array
-                   (
-                       [0] => falvie
-                   )
-   
-               [sources] => Array
-                   (
-                       [0] => https://www.furaffinity.net/view/23264446/
-                       [1] => http://www.furaffinity.net/user/falvie/
-                       [2] => https://d.facdn.net/art/falvie/1492632100/1492632100.falvie_kodiakonesm.png
-                   )
-           )
-   )
-```
-
-- You can easily iterate over it using `foreach()` and print every image's URL:
+- You can easily iterate over the result using `foreach()` and then print every image's URL:
 
 ```php
     /** @var \jacklul\E621API\Entity\Post $post */
@@ -134,134 +75,181 @@ Install this package through [Composer](https://github.com/composer/composer) - 
 Some actions require logging in to execute, to authenticate you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
 
 ```php
-    $api = new E621('My project');
-    $api->login('login', 'api_key');  // Set login data
+    $api = new E621();
+    $api->login('login', 'api_key');  // Set authentication data
     $request = $api->dmailInbox();
-    $api->logout();                   // Remove login data
+    $api->logout();                   // Remove authentication data
 ```
 
 ### Miscellaneous
 
-You can set progress handler through **Guzzle**'s options or after initializing `E621` object using:
+You can set progress handler through [**Guzzle**'s options](http://docs.guzzlephp.org/en/stable/request-options.html#progress) set while initializing the object or after:
 
 ```php
     $api->setProgressHandler([$this, 'progress']);
+    $api->setProgressHandler(null);     // Unset the handler
 ```
 
-To set a function for detailed logging of each request use:
+To set a function for debug logging of each request use:
 
 ```php
     $api->setDebugLogHandler([$this, 'logger']);
+    $api->setDebugLogHandler(null);     // Unset the handler
 ```
 
-To unset those handlers pass `NULL` as the argument:
-
-```php
-    $api->setProgressHandler(null);
-    $api->setDebugLogHandler(null);
-```
+This will write the output to `php://temp` until the request finishes and then it will flush it to your handler, if you need to use different solution set it through [**Guzzle**'s options](http://docs.guzzlephp.org/en/stable/request-options.html#debug).
 
 ## API Methods
 
 See [official API documentation](https://e621.net/help/show/api).
 
-- **postCreate** - requires login
-- **postUpdate** - requires login
+#### Posts
+
+- **postCreate** (login required)
+- **postUpdate** (login required)
 - **postShow**
 - **postCheckMd5**
 - **postTags**
 - **postIndex**
-- **postFlag** - requires login
-- **postDestroy** - requires login
+- **postFlag** (login required)
+- **postDestroy** (login required)
 - **postDeletedIndex**
 - **postPopularByDay**
 - **postPopularByWeek**
 - **postPopularByMonth**
-- **postRevertTags** - requires login
-- **postVote** - requires login
+- **postRevertTags** (login required)
+- **postVote** (login required)
+
+#### Tags
+
 - **tagIndex**
 - **tagShow**
-- **tagUpdate** - requires login
+- **tagUpdate** (login required)
 - **tagRelated**
 - **tagAliasIndex**
 - **tagImplicationIndex**
+
+#### Artists
+
 - **artistIndex**
-- **artistCreate** - requires login
-- **artistUpdate** - requires login
-- **artistDestroy** - requires login
+- **artistCreate** (login required)
+- **artistUpdate** (login required)
+- **artistDestroy** (login required)
+
+#### Comments
+
 - **commentShow**
 - **commentIndex**
 - **commentSearch**
-- **commentCreate** - requires login
-- **commentUpdate** - requires login
-- **commentDestroy** - requires login
-- **commentHide** - requires login
-- **commentUnhide** - requires login
-- **commentVote** - requires login
-- **blipCreate** - requires login
-- **blipUpdate** - requires login
+- **commentCreate** (login required)
+- **commentUpdate** (login required)
+- **commentDestroy** (login required)
+- **commentHide** (login required)
+- **commentUnhide** (login required)
+- **commentVote** (login required)
+
+#### Blips
+
+- **blipCreate** (login required)
+- **blipUpdate** (login required)
 - **blipIndex**
 - **blipShow**
-- **blipHide** - requires login
-- **blipUnhide** - requires login
+- **blipHide** (login required)
+- **blipUnhide** (login required)
+
+#### Wiki
+
 - **wikiIndex**
-- **wikiCreate** - requires login
-- **wikiUpdate** - requires login
+- **wikiCreate** (login required)
+- **wikiUpdate** (login required)
 - **wikiShow**
-- **wikiDestroy** - requires login
-- **wikiLock** - requires login
-- **wikiUnlock** - requires login
-- **wikiRevert** - requires login
+- **wikiDestroy** (login required)
+- **wikiLock** (login required)
+- **wikiUnlock** (login required)
+- **wikiRevert** (login required)
 - **wikiHistory**
 - **wikiRecentChanges**
+
+#### Notes
+
 - **noteIndex**
 - **noteSearch**
 - **noteHistory**
-- **noteRevert** - requires login
-- **noteUpdate** - requires login
+- **noteRevert** (login required)
+- **noteUpdate** (login required)
+
+#### Users
+
 - **userIndex**
 - **userShow**
 - **userRecordShow**
-- **dmailCreate** - requires login
-- **dmailInbox** - requires login
-- **dmailShow** - requires login
-- **dmailHide** - requires login
-- **dmailUnhide** - requires login
-- **dmailHideAll** - requires login
-- **dmailUnhideAll** - requires login
-- **dmailMarkAllRead** - requires login
-- **forumCreate**
-- **forumUpdate**
+
+#### Dmail
+
+- **dmailCreate** (login required)
+- **dmailInbox** (login required)
+- **dmailShow** (login required)
+- **dmailHide** (login required)
+- **dmailUnhide** (login required)
+- **dmailHideAll** (login required)
+- **dmailUnhideAll** (login required)
+- **dmailMarkAllRead** (login required)
+
+#### Forum
+
+- **forumCreate** (login required)
+- **forumUpdate** (login required)
 - **forumIndex**
 - **forumSearch**
 - **forumShow**
-- **forumHide** - requires login
-- **forumUnhide** - requires login
+- **forumHide** (login required)
+- **forumUnhide** (login required)
+
+#### Pools
+
 - **poolIndex**
 - **poolShow**
-- **poolUpdate** - requires login
-- **poolCreate** - requires login
-- **poolDestroy** - requires login
-- **poolAddPost** - requires login
-- **poolRemovePost** - requires login
+- **poolUpdate** (login required)
+- **poolCreate** (login required)
+- **poolDestroy** (login required)
+- **poolAddPost** (login required)
+- **poolRemovePost** (login required)
+
+#### Sets
+
 - **setIndex**
 - **setShow**
-- **setCreate** - requires login
-- **setUpdate** - requires login
-- **setAddPost** - requires login
-- **setRemovePost** - requires login
-- **setDestroy** - requires login
-- **setMaintainers** - requires login
-- **setMaintainerIndex** - requires login
-- **setMaintainerCreate** - requires login
-- **setMaintainerDestroy** - requires login
-- **setMaintainerApprove** - requires login
-- **setMaintainerDeny** - requires login
-- **setMaintainerBlock** - requires login
+- **setCreate** (login required)
+- **setUpdate** (login required)
+- **setAddPost** (login required)
+- **setRemovePost** (login required)
+- **setDestroy** (login required)
+- **setMaintainers** (login required)
+
+#### Maintainers
+
+- **setMaintainerIndex** (login required)
+- **setMaintainerCreate** (login required)
+- **setMaintainerDestroy** (login required)
+- **setMaintainerApprove** (login required)
+- **setMaintainerDeny** (login required)
+- **setMaintainerBlock** (login required)
+
+#### Favorites
+
 - **favoriteListUsers**
+
+#### Tag History
+
 - **postTagHistoryIndex**
+
+#### Flag History
+
 - **postFlagHistoryIndex**
-- **ticketCreate** - requires login
+
+#### Tickets
+
+- **ticketCreate** (login required)
 - **ticketIndex**
 - **ticketShow**
 
