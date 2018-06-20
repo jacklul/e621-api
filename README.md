@@ -1,6 +1,6 @@
 # e621 API [![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
 
-Simple wrapper for e621.net API written in PHP, uses [**Guzzle**](http://docs.guzzlephp.org/en/stable/request-options.html#progress) under the hood.
+Simple wrapper for e621.net API written in PHP, uses [**Guzzle**](https://github.com/guzzle/guzzle) under the hood.
 
 **This class is currently in development, most of the stuff was not tested and not every method in entities is implemented yet.**
 
