@@ -45,105 +45,105 @@ use jacklul\E621API\Exception\LoginRequiredException;
  * Simple object-oriented e621 API wrapper
  * Some useful code borrowed from https://github.com/php-telegram-bot/core
  *
- * @method Response postCreate(array $params = null)
- * @method Response postUpdate(array $params = null)
- * @method Response postShow(array $params = null)
- * @method Response postCheckMd5(array $params = null)
- * @method Response postTags(array $params = null)
- * @method Response postIndex(array $params = null)
- * @method Response postFlag(array $params = null)
- * @method Response postDestroy(array $params = null)
- * @method Response postDeletedIndex(array $params = null)
- * @method Response postPopularByDay(array $params = null)
- * @method Response postPopularByWeek(array $params = null)
- * @method Response postPopularByMonth(array $params = null)
- * @method Response postRevertTags(array $params = null)
- * @method Response postVote(array $params = null)
- * @method Response tagIndex(array $params = null)
- * @method Response tagShow(array $params = null)
- * @method Response tagUpdate(array $params = null)
- * @method Response tagRelated(array $params = null)
- * @method Response tagAliasIndex(array $params = null)
- * @method Response tagImplicationIndex(array $params = null)
- * @method Response artistIndex(array $params = null)
- * @method Response artistCreate(array $params = null)
- * @method Response artistUpdate(array $params = null)
- * @method Response artistDestroy(array $params = null)
- * @method Response commentShow(array $params = null)
- * @method Response commentIndex(array $params = null)
- * @method Response commentSearch(array $params = null)
- * @method Response commentCreate(array $params = null)
- * @method Response commentUpdate(array $params = null)
- * @method Response commentDestroy(array $params = null)
- * @method Response commentHide(array $params = null)
- * @method Response commentUnhide(array $params = null)
- * @method Response commentVote(array $params = null)
- * @method Response blipCreate(array $params = null)
- * @method Response blipUpdate(array $params = null)
- * @method Response blipIndex(array $params = null)
- * @method Response blipShow(array $params = null)
- * @method Response blipHide(array $params = null)
- * @method Response blipUnhide(array $params = null)
- * @method Response wikiIndex(array $params = null)
- * @method Response wikiCreate(array $params = null)
- * @method Response wikiUpdate(array $params = null)
- * @method Response wikiShow(array $params = null)
- * @method Response wikiDestroy(array $params = null)
- * @method Response wikiLock(array $params = null)
- * @method Response wikiUnlock(array $params = null)
- * @method Response wikiRevert(array $params = null)
- * @method Response wikiHistory(array $params = null)
- * @method Response wikiRecentChanges(array $params = null)
- * @method Response noteIndex(array $params = null)
- * @method Response noteSearch(array $params = null)
- * @method Response noteHistory(array $params = null)
- * @method Response noteRevert(array $params = null)
- * @method Response noteUpdate(array $params = null)
- * @method Response userIndex(array $params = null)
- * @method Response userShow(array $params = null)
- * @method Response userRecordShow(array $params = null)
- * @method Response dmailCreate(array $params = null)
- * @method Response dmailInbox(array $params = null)
- * @method Response dmailShow(array $params = null)
- * @method Response dmailHide(array $params = null)
- * @method Response dmailUnhide(array $params = null)
- * @method Response dmailHideAll(array $params = null)
- * @method Response dmailUnhideAll(array $params = null)
- * @method Response dmailMarkAllRead(array $params = null)
- * @method Response forumCreate(array $params = null)
- * @method Response forumUpdate(array $params = null)
- * @method Response forumIndex(array $params = null)
- * @method Response forumSearch(array $params = null)
- * @method Response forumShow(array $params = null)
- * @method Response forumHide(array $params = null)
- * @method Response forumUnhide(array $params = null)
- * @method Response poolIndex(array $params = null)
- * @method Response poolShow(array $params = null)
- * @method Response poolUpdate(array $params = null)
- * @method Response poolCreate(array $params = null)
- * @method Response poolDestroy(array $params = null)
- * @method Response poolAddPost(array $params = null)
- * @method Response poolRemovePost(array $params = null)
- * @method Response setIndex(array $params = null)
- * @method Response setShow(array $params = null)
- * @method Response setCreate(array $params = null)
- * @method Response setUpdate(array $params = null)
- * @method Response setAddPost(array $params = null)
- * @method Response setRemovePost(array $params = null)
- * @method Response setDestroy(array $params = null)
- * @method Response setMaintainers(array $params = null)
- * @method Response setMaintainerIndex(array $params = null)
- * @method Response setMaintainerCreate(array $params = null)
- * @method Response setMaintainerDestroy(array $params = null)
- * @method Response setMaintainerApprove(array $params = null)
- * @method Response setMaintainerDeny(array $params = null)
- * @method Response setMaintainerBlock(array $params = null)
- * @method Response favoriteListUsers(array $params = null)
- * @method Response postTagHistoryIndex(array $params = null)
- * @method Response postFlagHistoryIndex(array $params = null)
- * @method Response ticketCreate(array $params = null)
- * @method Response ticketIndex(array $params = null)
- * @method Response ticketShow(array $params = null)
+ * @method Response postCreate(array $params = null, array $options = null)
+ * @method Response postUpdate(array $params = null, array $options = null)
+ * @method Response postShow(array $params = null, array $options = null)
+ * @method Response postCheckMd5(array $params = null, array $options = null)
+ * @method Response postTags(array $params = null, array $options = null)
+ * @method Response postIndex(array $params = null, array $options = null)
+ * @method Response postFlag(array $params = null, array $options = null)
+ * @method Response postDestroy(array $params = null, array $options = null)
+ * @method Response postDeletedIndex(array $params = null, array $options = null)
+ * @method Response postPopularByDay(array $params = null, array $options = null)
+ * @method Response postPopularByWeek(array $params = null, array $options = null)
+ * @method Response postPopularByMonth(array $params = null, array $options = null)
+ * @method Response postRevertTags(array $params = null, array $options = null)
+ * @method Response postVote(array $params = null, array $options = null)
+ * @method Response tagIndex(array $params = null, array $options = null)
+ * @method Response tagShow(array $params = null, array $options = null)
+ * @method Response tagUpdate(array $params = null, array $options = null)
+ * @method Response tagRelated(array $params = null, array $options = null)
+ * @method Response tagAliasIndex(array $params = null, array $options = null)
+ * @method Response tagImplicationIndex(array $params = null, array $options = null)
+ * @method Response artistIndex(array $params = null, array $options = null)
+ * @method Response artistCreate(array $params = null, array $options = null)
+ * @method Response artistUpdate(array $params = null, array $options = null)
+ * @method Response artistDestroy(array $params = null, array $options = null)
+ * @method Response commentShow(array $params = null, array $options = null)
+ * @method Response commentIndex(array $params = null, array $options = null)
+ * @method Response commentSearch(array $params = null, array $options = null)
+ * @method Response commentCreate(array $params = null, array $options = null)
+ * @method Response commentUpdate(array $params = null, array $options = null)
+ * @method Response commentDestroy(array $params = null, array $options = null)
+ * @method Response commentHide(array $params = null, array $options = null)
+ * @method Response commentUnhide(array $params = null, array $options = null)
+ * @method Response commentVote(array $params = null, array $options = null)
+ * @method Response blipCreate(array $params = null, array $options = null)
+ * @method Response blipUpdate(array $params = null, array $options = null)
+ * @method Response blipIndex(array $params = null, array $options = null)
+ * @method Response blipShow(array $params = null, array $options = null)
+ * @method Response blipHide(array $params = null, array $options = null)
+ * @method Response blipUnhide(array $params = null, array $options = null)
+ * @method Response wikiIndex(array $params = null, array $options = null)
+ * @method Response wikiCreate(array $params = null, array $options = null)
+ * @method Response wikiUpdate(array $params = null, array $options = null)
+ * @method Response wikiShow(array $params = null, array $options = null)
+ * @method Response wikiDestroy(array $params = null, array $options = null)
+ * @method Response wikiLock(array $params = null, array $options = null)
+ * @method Response wikiUnlock(array $params = null, array $options = null)
+ * @method Response wikiRevert(array $params = null, array $options = null)
+ * @method Response wikiHistory(array $params = null, array $options = null)
+ * @method Response wikiRecentChanges(array $params = null, array $options = null)
+ * @method Response noteIndex(array $params = null, array $options = null)
+ * @method Response noteSearch(array $params = null, array $options = null)
+ * @method Response noteHistory(array $params = null, array $options = null)
+ * @method Response noteRevert(array $params = null, array $options = null)
+ * @method Response noteUpdate(array $params = null, array $options = null)
+ * @method Response userIndex(array $params = null, array $options = null)
+ * @method Response userShow(array $params = null, array $options = null)
+ * @method Response userRecordShow(array $params = null, array $options = null)
+ * @method Response dmailCreate(array $params = null, array $options = null)
+ * @method Response dmailInbox(array $params = null, array $options = null)
+ * @method Response dmailShow(array $params = null, array $options = null)
+ * @method Response dmailHide(array $params = null, array $options = null)
+ * @method Response dmailUnhide(array $params = null, array $options = null)
+ * @method Response dmailHideAll(array $params = null, array $options = null)
+ * @method Response dmailUnhideAll(array $params = null, array $options = null)
+ * @method Response dmailMarkAllRead(array $params = null, array $options = null)
+ * @method Response forumCreate(array $params = null, array $options = null)
+ * @method Response forumUpdate(array $params = null, array $options = null)
+ * @method Response forumIndex(array $params = null, array $options = null)
+ * @method Response forumSearch(array $params = null, array $options = null)
+ * @method Response forumShow(array $params = null, array $options = null)
+ * @method Response forumHide(array $params = null, array $options = null)
+ * @method Response forumUnhide(array $params = null, array $options = null)
+ * @method Response poolIndex(array $params = null, array $options = null)
+ * @method Response poolShow(array $params = null, array $options = null)
+ * @method Response poolUpdate(array $params = null, array $options = null)
+ * @method Response poolCreate(array $params = null, array $options = null)
+ * @method Response poolDestroy(array $params = null, array $options = null)
+ * @method Response poolAddPost(array $params = null, array $options = null)
+ * @method Response poolRemovePost(array $params = null, array $options = null)
+ * @method Response setIndex(array $params = null, array $options = null)
+ * @method Response setShow(array $params = null, array $options = null)
+ * @method Response setCreate(array $params = null, array $options = null)
+ * @method Response setUpdate(array $params = null, array $options = null)
+ * @method Response setAddPost(array $params = null, array $options = null)
+ * @method Response setRemovePost(array $params = null, array $options = null)
+ * @method Response setDestroy(array $params = null, array $options = null)
+ * @method Response setMaintainers(array $params = null, array $options = null)
+ * @method Response setMaintainerIndex(array $params = null, array $options = null)
+ * @method Response setMaintainerCreate(array $params = null, array $options = null)
+ * @method Response setMaintainerDestroy(array $params = null, array $options = null)
+ * @method Response setMaintainerApprove(array $params = null, array $options = null)
+ * @method Response setMaintainerDeny(array $params = null, array $options = null)
+ * @method Response setMaintainerBlock(array $params = null, array $options = null)
+ * @method Response favoriteListUsers(array $params = null, array $options = null)
+ * @method Response postTagHistoryIndex(array $params = null, array $options = null)
+ * @method Response postFlagHistoryIndex(array $params = null, array $options = null)
+ * @method Response ticketCreate(array $params = null, array $options = null)
+ * @method Response ticketIndex(array $params = null, array $options = null)
+ * @method Response ticketShow(array $params = null, array $options = null)
  */
 class E621
 {
@@ -792,50 +792,63 @@ class E621
             throw new \InvalidArgumentException('Method "' . $action . '" doesn\'t exist');
         }
 
-        if (isset($this->actions[$action]['require_login']) && $this->actions[$action]['require_login'] === true) {
-            if (isset($data[0]) && !isset($data[0]['login']) || !isset($data[0]['password_hash'])) {
+        $path = $this->actions[$action]['path'];
+        $method = $this->actions[$action]['method'];
+        $class = $this->actions[$action]['class'];
+        $require_login = isset($this->actions[$action]['require_login']) ? $this->actions[$action]['require_login'] : false;
+
+        $parameters = isset($data[0]) && is_array($data[0]) ? $data[0] : null;
+        $options = isset($data[1]) && is_array($data[1]) ? $data[1] : null;
+
+        if ($require_login) {
+            if (!isset($parameters['login']) || !isset($parameters['password_hash'])) {
                 if (isset($this->auth['login']) && isset($this->auth['password_hash'])) {
-                    $data[0]['login'] = $this->auth['login'];
-                    $data[0]['password_hash'] = $this->auth['password_hash'];
+                    $parameters['login'] = $this->auth['login'];
+                    $parameters['password_hash'] = $this->auth['password_hash'];
                 } else {
                     throw new LoginRequiredException('Method "' . $action . '" requires logging in but no login data was provided');
                 }
             }
         }
 
-        return $this->request($this->actions[$action]['path'], isset($data[0]) ? $data[0] : null, $this->actions[$action]['method'], $this->actions[$action]['class']);
+        return $this->request($path, $method, $parameters, $options, $class);
     }
 
     /**
      * Main method for making requests
      *
      * @param string $path
-     * @param array  $data
      * @param string $method
+     * @param array  $data
+     * @param array  $options
      * @param string $class
      *
      * @return Response
      * @throws GuzzleException
      */
-    private function request($path = 'post/index.json', array $data = null, $method = 'GET', $class = null)
+    private function request($path = 'post/index.json', $method = 'GET', array $data = null, array $options = null, $class = null)
     {
         if (empty($path)) {
             throw new \InvalidArgumentException('Argument "path" cannot be empty');
         }
 
         if (strtoupper($method) === 'GET') {
-            $options = ['query' => $data];
+            $request_options = ['query' => $data];
         } elseif (strtoupper($method) === 'POST') {
-            $options = $this->prepareRequestParams($data);
+            $request_options = $this->prepareRequestParams($data);
         } else {
             throw new \RuntimeException('Unsupported request method, must be one of "GET, POST"');
         }
 
-        ($this->progress_handler !== null && is_callable($this->progress_handler)) && $options['progress'] = $this->progress_handler;
-        ($this->debug_log_handler !== null && is_callable($this->debug_log_handler)) && $options['debug'] = $this->createDebugStream();
+        ($this->progress_handler !== null && is_callable($this->progress_handler)) && $request_options['progress'] = $this->progress_handler;
+        ($this->debug_log_handler !== null && is_callable($this->debug_log_handler)) && $request_options['debug'] = $this->createDebugStream();
 
+        if (is_array($options)) {
+            $request_options = array_replace_recursive($request_options, $options);
+        }
+        
         try {
-            $response = $this->client->request($method, $path, $options);
+            $response = $this->client->request($method, $path, $request_options);
             $raw_result = (string)$response->getBody();
             $result = json_decode($raw_result, true);
 

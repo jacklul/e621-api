@@ -1,6 +1,6 @@
 # e621 API [![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
 
-Simple wrapper for e621.net API written in PHP.
+Simple wrapper for e621.net API written in PHP, uses [**Guzzle**](http://docs.guzzlephp.org/en/stable/request-options.html#progress) under the hood.
 
 **This class is currently in development, most of the stuff was not tested and not every method in entities is implemented yet.**
 
@@ -83,21 +83,27 @@ Some actions require logging in to execute, to authenticate you can either pass 
 
 ### Miscellaneous
 
-You can set progress handler through [**Guzzle**'s options](http://docs.guzzlephp.org/en/stable/request-options.html#progress) set while initializing the object or after:
+You can pass **Guzzle**'s options applied only for a single request as a second parameter:
+
+```php
+    $request = $api->postIndex(['tags' => 'cat order:score'], ['timeout' => 10]);
+```
+
+You can set progress handler through **Guzzle**'s options while initializing the object, per single request or after:
 
 ```php
     $api->setProgressHandler([$this, 'progress']);
     $api->setProgressHandler(null);     // Unset the handler
 ```
 
-To set a function for debug logging of each request use:
+Similar with a debug log function:
 
 ```php
     $api->setDebugLogHandler([$this, 'logger']);
     $api->setDebugLogHandler(null);     // Unset the handler
 ```
 
-This will write the output to `php://temp` until the request finishes and then it will flush it to your handler, if you need to use different solution set it through [**Guzzle**'s options](http://docs.guzzlephp.org/en/stable/request-options.html#debug).
+This will write the output to `php://temp` until the request finishes and then it will flush it to your handler, if you need to use different solution set it through **Guzzle**'s options.
 
 ## API Methods
 
