@@ -13,11 +13,12 @@ namespace jacklul\E621API\Entity;
 use InvalidArgumentException;
 
 /**
- * @method bool   getSuccess()   Is the request successful?
+ * @method bool   getSuccess()   Was the request successful?
  * @method mixed  getResult()    Result of the request (usually array containing objects, empty array when no results)
  * @method string getRawResult() Raw result of the request (usually JSON string)
- * @method string getReason()    Description of the failed request
- * @method string getMessage()   long description of the failed request
+ * @method string getReason()    Reason why the request failed (returned by the API) - is safe to be displayed to the user, in case of internal errors this is set to safe to display value
+ * @method string getMessage()   Description of the failure reason (returned by the API) - not always available
+ * @method string getError()     Returns internal error description (timeouts, connection issues) - it is NOT safe to display this to the users (can contain sensitive information)
  */
 class Response extends Entity
 {
@@ -33,10 +34,16 @@ class Response extends Entity
         }
 
         if (!is_array($result)) {
-            throw new InvalidArgumentException('Argument "timeout" must be an array!');
+            throw new InvalidArgumentException('Argument "result" must be an array');
         }
 
-        if (isset($result['success']) && $result['success'] === false) {
+        if (isset($result['error'])) {    // Internal errors
+            $data = [
+                'success' => false,
+                'reason'  => $result['reason'],
+                'error'  => $result['error'],
+            ];
+        } elseif (isset($result['success']) && $result['success'] === false) {    // Errors coming from the API
             $data = [
                 'success' => false,
                 'reason'  => $result['reason'],
@@ -45,7 +52,7 @@ class Response extends Entity
             if (isset($result['message'])) {
                 $data['message'] = $result['message'];
             }
-        } elseif (count($result) === 0) {
+        } elseif (count($result) === 0) {   // Empty results
             $data = [
                 'success' => true,
                 'result'  => [],

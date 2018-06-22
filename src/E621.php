@@ -152,7 +152,7 @@ class E621
      *
      * @const string
      */
-    const VERSION = '0.4.0';
+    const VERSION = '0.4.1';
 
     /**
      * Base URL for API calls
@@ -853,7 +853,10 @@ class E621
             $result = json_decode($raw_result, true);
 
             if (!is_array($result)) {
-                $result = ['success' => false, 'reason' => 'Invalid data returned', 'raw_result' => $raw_result];
+                $result = [
+                    'reason' => 'Data received from e621.net API is invalid',
+                    'error' => 'Response couldn\'t be decoded into array',
+                ];
             }
         } catch (RequestException $e) {
             $this->debugLog($e);
@@ -871,11 +874,10 @@ class E621
             }
 
             if (!is_array($result)) {
-                $result = ['success' => false, 'reason' => $result];
-
-                if ($raw_result !== null) {
-                    $result['raw_result'] = $raw_result;
-                }
+                $result = [
+                    'reason' => 'Connection to e621.net API failed or timed out',
+                    'error' => $result,
+                ];
             }
         } finally {
             $this->endDebugStream();
