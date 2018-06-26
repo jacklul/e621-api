@@ -9,8 +9,9 @@ Simple wrapper for e621.net API written in PHP, uses [**Guzzle**](https://github
     - [Installation](#installation)
     - [Usage](#usage)
     - [Logging in](#logging-in)
-    - [Miscellaneous](#miscellaneous)
+    - [Debugging](#debugging)
 - [API Methods](#api-methods)
+- [Exceptions](#exceptions)
 - [License](#license)
 
 ## Instructions
@@ -70,6 +71,20 @@ Install this package through [Composer](https://github.com/composer/composer) - 
     }
 ```
 
+You can pass **Guzzle**'s options applied only for a single request as a second parameter:
+
+```php
+    $request = $api->postIndex(['tags' => 'cat order:score'], ['timeout' => 10]);
+```
+
+By default library will throw exceptions on connection failures or errors, you can disable this by using:
+
+```php
+    $api->throwExceptions(false);   // Not recommended
+```
+
+When disabled - all error messages will be available via `$request->getError()` method and `$request->getReason()` will contain a message that you can display to the user.
+
 ### Logging in
 
 Some actions require logging in to execute, to authenticate you can either pass `login` and `password_hash` (API key) parameters with each request or set it globally:
@@ -81,13 +96,7 @@ Some actions require logging in to execute, to authenticate you can either pass 
     $api->logout();                   // Remove authentication data
 ```
 
-### Miscellaneous
-
-You can pass **Guzzle**'s options applied only for a single request as a second parameter:
-
-```php
-    $request = $api->postIndex(['tags' => 'cat order:score'], ['timeout' => 10]);
-```
+### Debugging
 
 You can set progress handler through **Guzzle**'s options while initializing the object, per single request or after:
 
@@ -96,14 +105,14 @@ You can set progress handler through **Guzzle**'s options while initializing the
     $api->setProgressHandler(null);     // Unset the handler
 ```
 
-Similar with a debug log function:
+Similar with a debug logging function:
 
 ```php
     $api->setDebugLogHandler([$this, 'logger']);
     $api->setDebugLogHandler(null);     // Unset the handler
 ```
 
-This will write the output to `php://temp` until the request finishes and then it will flush it to your handler, if you need to use different solution set it through **Guzzle**'s options.
+This will write the output to `php://temp` until the request finishes and then it will flush it to your handler, if you need to use different approach then set your handler through **Guzzle**'s options.
 
 ## API Methods
 
@@ -259,6 +268,25 @@ See [official API documentation](https://e621.net/help/show/api).
 - **ticketIndex**
 - **ticketShow**
 
+## Exceptions
+
+#### `jacklul\E621API\Exception\ConnectException` 
+
+Is thrown when connection to e621.net API failed or timed out, in most cases it will also contain `GuzzleHttp\Exception\ConnectException` exception which might explain the issue (`$e->getPrevious()`).
+
+#### `jacklul\E621API\Exception\LoginRequiredException`
+ 
+Is thrown when executed method requires logging in but no login data was provided.
+
+#### `jacklul\E621API\Exception\E621Exception`
+
+Is thrown when something happens but it's none of the above.
+ 
+Possible cases:
+
+- HTTP client error, will contain `GuzzleHttp\Exception\GuzzleException` exception (`$e->getPrevious()`)
+- data parsing error, will contain a **raw result** (`$e->getRawResult()`)
+
 ## License
 
-See [LICENSE](LICENSE).
+**MIT License**, for details see [LICENSE](LICENSE).

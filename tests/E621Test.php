@@ -150,4 +150,29 @@ final class E621Test extends TestCase
 
         $this->assertInternalType("int", $post_id);
     }
+
+    public function testTimeoutWithAndWithoutExceptions()
+    {
+        $this->api->throwExceptions(true);
+
+        if ((float)$this->phpunit_version < 6.5) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->setExpectedException(\jacklul\E621API\Exception\ConnectException::class, \jacklul\E621API\Exception\ConnectException::MESSAGE);
+        } else {
+            /** @noinspection PhpParamsInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->expectException(\jacklul\E621API\Exception\ConnectException::class);
+            /** @noinspection PhpParamsInspection */
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->expectExceptionMessage(\jacklul\E621API\Exception\ConnectException::MESSAGE);
+        }
+
+        $this->api->postIndex(['limit' => 1000], ['timeout' => 0.01]);
+
+        $this->api->throwExceptions(false);
+        $result = $this->api->postIndex(['limit' => 1000], ['timeout' => 0.01]);
+
+        $this->assertEquals(false, $result->isSuccessful());
+        $this->assertEquals($result->getReason(), \jacklul\E621API\Exception\ConnectException::MESSAGE);
+    }
 }

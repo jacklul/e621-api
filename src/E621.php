@@ -11,6 +11,7 @@
 namespace jacklul\E621API;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException as GuzzleConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use jacklul\E621API\Entity\Artist;
@@ -39,11 +40,12 @@ use jacklul\E621API\Entity\User;
 use jacklul\E621API\Entity\UserRecord;
 use jacklul\E621API\Entity\Wiki;
 use jacklul\E621API\Entity\WikiHistory;
+use jacklul\E621API\Exception\ConnectException;
+use jacklul\E621API\Exception\E621Exception;
 use jacklul\E621API\Exception\LoginRequiredException;
 
 /**
  * Simple object-oriented e621 API wrapper
- * Some useful code borrowed from https://github.com/php-telegram-bot/core
  *
  * @method Response postCreate(array $params = null, array $options = null)
  * @method Response postUpdate(array $params = null, array $options = null)
@@ -152,7 +154,7 @@ class E621
      *
      * @const string
      */
-    const VERSION = '0.4.1';
+    const VERSION = '0.5.0';
 
     /**
      * Base URL for API calls
@@ -758,6 +760,11 @@ class E621
     private $auth;
 
     /**
+     * @var
+     */
+    private $throw_exceptions = true;
+
+    /**
      * E621 constructor
      *
      * @param array $options
@@ -784,7 +791,7 @@ class E621
      * @return string
      * @throws \InvalidArgumentException
      * @throws LoginRequiredException
-     * @throws GuzzleException
+     * @throws E621Exception
      */
     public function __call($action, array $data = [])
     {
@@ -806,7 +813,7 @@ class E621
                     $parameters['login'] = $this->auth['login'];
                     $parameters['password_hash'] = $this->auth['password_hash'];
                 } else {
-                    throw new LoginRequiredException('Method "' . $action . '" requires logging in but no login data was provided');
+                    throw new LoginRequiredException($action);
                 }
             }
         }
@@ -824,7 +831,8 @@ class E621
      * @param string $class
      *
      * @return Response
-     * @throws GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws E621Exception
      */
     private function request($path = 'post/index.json', $method = 'GET', array $data = null, array $options = null, $class = null)
     {
@@ -837,7 +845,7 @@ class E621
         } elseif (strtoupper($method) === 'POST') {
             $request_options = $this->prepareRequestParams($data);
         } else {
-            throw new \RuntimeException('Unsupported request method, must be one of "GET, POST"');
+            throw new \InvalidArgumentException('Unsupported request method');
         }
 
         ($this->progress_handler !== null && is_callable($this->progress_handler)) && $request_options['progress'] = $this->progress_handler;
@@ -846,37 +854,62 @@ class E621
         if (is_array($options)) {
             $request_options = array_replace_recursive($request_options, $options);
         }
-        
+
         try {
             $response = $this->client->request($method, $path, $request_options);
             $raw_result = (string)$response->getBody();
             $result = json_decode($raw_result, true);
 
             if (!is_array($result)) {
+                if ($this->throw_exceptions === true) {
+                    throw new E621Exception(E621Exception::MESSAGE_DATA_INVALID, 0, null, $raw_result);
+                } else {
+                    $result = [
+                        'reason' => E621Exception::MESSAGE_DATA_INVALID,
+                        'error'  => 'Response couldn\'t be decoded into array',
+                    ];
+                }
+            }
+        } catch (GuzzleConnectException $e) {
+            if ($this->throw_exceptions === true) {
+                throw new ConnectException($e);
+            } else {
                 $result = [
-                    'reason' => 'Data received from e621.net API is invalid',
-                    'error' => 'Response couldn\'t be decoded into array',
+                    'reason' => ConnectException::MESSAGE,
+                    'error'  => $e->getMessage(),
                 ];
             }
         } catch (RequestException $e) {
             $this->debugLog($e);
 
-            $result = $e->getMessage();
-            $raw_result = null;
-
             if ($e->getResponse() !== null && $e->getResponse()->getBody() !== null) {
-                $raw_result = $e->getResponse()->getBody();
+                $raw_result = (string)$e->getResponse()->getBody();
                 $result = json_decode($raw_result, true);
-
-                if (!is_array($result)) {
-                    $result = 'Request resulted in a `' . $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase() . '` response';
-                }
             }
 
-            if (!is_array($result)) {
+            if (!isset($result) || !is_array($result)) {
+                if ($this->throw_exceptions === true) {
+                    throw new E621Exception(null, 0, $e, isset($raw_result) ? $raw_result : null);
+                } else {
+                    if (!isset($result)) {
+                        $result = $e->getMessage();
+                    } elseif (!is_array($result)) {
+                        $result = 'Request resulted in a `' . $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase() . '` response';
+                    }
+
+                    $result = [
+                        'reason' => ConnectException::MESSAGE,
+                        'error'  => $result,
+                    ];
+                }
+            }
+        } catch (GuzzleException $e) {
+            if ($this->throw_exceptions === true) {
+                throw new E621Exception(E621Exception::MESSAGE_CLIENT_ERROR, 0, $e);
+            } else {
                 $result = [
-                    'reason' => 'Connection to e621.net API failed or timed out',
-                    'error' => $result,
+                    'reason' => E621Exception::MESSAGE_CLIENT_ERROR,
+                    'error'  => $e->getMessage(),
                 ];
             }
         } finally {
@@ -893,6 +926,7 @@ class E621
             }
         }
 
+        /** @noinspection PhpUndefinedVariableInspection */
         return new Response($class, $result, $raw_result);
     }
 
@@ -930,6 +964,7 @@ class E621
 
     /**
      * Get the stream handle of the temporary debug output
+     * Debug stream code borrowed from https://github.com/php-telegram-bot/core
      *
      * @return bool|resource
      */
@@ -1002,7 +1037,7 @@ class E621
     }
 
     /**
-     * Set auth data globally
+     * Set login data globally
      *
      * @param $login
      * @param $api_key
@@ -1026,10 +1061,22 @@ class E621
     }
 
     /**
-     * Deletes auth data
+     * Deletes login data
      */
     public function logout()
     {
         $this->auth = null;
+    }
+
+    /**
+     * When set to true requests to the API will not throw any exceptions
+     * but will return Response object with appropriate fields set instead.
+     * You should avoid using this!
+     *
+     * @param bool $value
+     */
+    public function throwExceptions($value = true)
+    {
+        $this->throw_exceptions = $value;
     }
 }
