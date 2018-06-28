@@ -14,32 +14,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException as GuzzleConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use jacklul\E621API\Entity\Artist;
-use jacklul\E621API\Entity\Blip;
-use jacklul\E621API\Entity\Comment;
-use jacklul\E621API\Entity\Dmail;
-use jacklul\E621API\Entity\FavoritedUsers;
-use jacklul\E621API\Entity\Forum;
 use jacklul\E621API\Entity\Generic;
-use jacklul\E621API\Entity\Note;
-use jacklul\E621API\Entity\NoteHistory;
-use jacklul\E621API\Entity\Pool;
-use jacklul\E621API\Entity\Post;
-use jacklul\E621API\Entity\PostFlagHistory;
-use jacklul\E621API\Entity\PostMd5;
-use jacklul\E621API\Entity\PostTagHistory;
 use jacklul\E621API\Entity\Response;
-use jacklul\E621API\Entity\Set;
-use jacklul\E621API\Entity\SetMaintainer;
-use jacklul\E621API\Entity\Tag;
-use jacklul\E621API\Entity\TagAlias;
-use jacklul\E621API\Entity\TagImplication;
-use jacklul\E621API\Entity\TagRelated;
-use jacklul\E621API\Entity\Ticket;
-use jacklul\E621API\Entity\User;
-use jacklul\E621API\Entity\UserRecord;
-use jacklul\E621API\Entity\Wiki;
-use jacklul\E621API\Entity\WikiHistory;
 use jacklul\E621API\Exception\ConnectException;
 use jacklul\E621API\Exception\E621Exception;
 use jacklul\E621API\Exception\LoginRequiredException;
@@ -152,577 +128,16 @@ class E621
     /**
      * Library version
      *
-     * @const string
+     * @var string
      */
-    const VERSION = '0.5.0';
+    const VERSION = '0.6.0';
 
     /**
      * Base URL for API calls
      *
-     * @const string
+     * @var string
      */
     const BASE_URI = 'https://e621.net';
-
-    /**
-     * List of supported API methods and their execution settings
-     *
-     * @var array
-     */
-    private $actions = [
-        'postCreate'           => [
-            'path'          => 'post/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'postUpdate'           => [
-            'path'          => 'post/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'postShow'             => [
-            'path'   => 'post/show.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postCheckMd5'         => [
-            'path'   => 'post/check_md5.json',
-            'method' => 'GET',
-            'class'  => PostMd5::class,
-        ],
-        'postTags'             => [
-            'path'   => 'post/tags.json',
-            'method' => 'GET',
-            'class'  => Tag::class,
-        ],
-        'postIndex'            => [
-            'path'   => 'post/index.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postFlag'             => [
-            'path'          => 'post/flag.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'postDestroy'          => [
-            'path'          => 'post/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'postDeletedIndex'     => [
-            'path'   => 'post/deleted_index.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postPopularByDay'     => [
-            'path'   => 'post/popular_by_day.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postPopularByWeek'    => [
-            'path'   => 'post/popular_by_week.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postPopularByMonth'   => [
-            'path'   => 'post/popular_by_month.json',
-            'method' => 'GET',
-            'class'  => Post::class,
-        ],
-        'postRevertTags'       => [
-            'path'          => 'post/revert_tags.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'postVote'             => [
-            'path'          => 'post/vote.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'tagIndex'             => [
-            'path'   => 'tag/index.json',
-            'method' => 'GET',
-            'class'  => Tag::class,
-        ],
-        'tagShow'              => [
-            'path'   => 'tag/show.json',
-            'method' => 'GET',
-            'class'  => Tag::class,
-        ],
-        'tagUpdate'            => [
-            'path'          => 'tag/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'tagRelated'           => [
-            'path'   => 'tag/related.json',
-            'method' => 'GET',
-            'class'  => TagRelated::class,
-        ],
-        'tagAliasIndex'        => [
-            'path'   => 'tag_alias/index.json',
-            'method' => 'GET',
-            'class'  => TagAlias::class,
-        ],
-        'tagImplicationIndex'  => [
-            'path'   => 'tag_implication/index.json',
-            'method' => 'GET',
-            'class'  => TagImplication::class,
-        ],
-        'artistIndex'          => [
-            'path'   => 'artist/index.json',
-            'method' => 'GET',
-            'class'  => Artist::class,
-        ],
-        'artistCreate'         => [
-            'path'          => 'artist/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'artistUpdate'         => [
-            'path'          => 'artist/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'artistDestroy'        => [
-            'path'          => 'artist/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentShow'          => [
-            'path'   => 'comment/show.json',
-            'method' => 'GET',
-            'class'  => Comment::class,
-        ],
-        'commentIndex'         => [
-            'path'   => 'comment/index.json',
-            'method' => 'GET',
-            'class'  => Comment::class,
-        ],
-        'commentSearch'        => [
-            'path'   => 'comment/search.json',
-            'method' => 'GET',
-            'class'  => Comment::class,
-        ],
-        'commentCreate'        => [
-            'path'          => 'comment/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentUpdate'        => [
-            'path'          => 'comment/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentDestroy'       => [
-            'path'          => 'comment/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentHide'          => [
-            'path'          => 'comment/hide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentUnhide'        => [
-            'path'          => 'comment/unhide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'commentVote'          => [
-            'path'          => 'comment/vote.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'blipCreate'           => [
-            'path'          => 'blip/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'blipUpdate'           => [
-            'path'          => 'blip/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'blipIndex'            => [
-            'path'   => 'blip/index.json',
-            'method' => 'GET',
-            'class'  => Blip::class,
-        ],
-        'blipShow'             => [
-            'path'   => 'blip/show.json',
-            'method' => 'GET',
-            'class'  => Blip::class,
-        ],
-        'blipHide'             => [
-            'path'          => 'blip/hide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'blipUnhide'           => [
-            'path'          => 'blip/unhide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiIndex'            => [
-            'path'   => 'wiki/index.json',
-            'method' => 'GET',
-            'class'  => Wiki::class,
-        ],
-        'wikiCreate'           => [
-            'path'          => 'wiki/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiUpdate'           => [
-            'path'          => 'wiki/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiShow'             => [
-            'path'   => 'wiki/show.json',
-            'method' => 'GET',
-            'class'  => Wiki::class,
-        ],
-        'wikiDestroy'          => [
-            'path'          => 'wiki/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiLock'             => [
-            'path'          => 'wiki/lock.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiUnlock'           => [
-            'path'          => 'wiki/unlock.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiRevert'           => [
-            'path'          => 'wiki/revert.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'wikiHistory'          => [
-            'path'   => 'wiki/history.json',
-            'method' => 'GET',
-            'class'  => WikiHistory::class,
-        ],
-        'wikiRecentChanges'    => [
-            'path'   => 'wiki/recent_changes.json',
-            'method' => 'GET',
-            'class'  => Wiki::class,
-        ],
-        'noteIndex'            => [
-            'path'   => 'note/index.json',
-            'method' => 'GET',
-            'class'  => Note::class,
-        ],
-        'noteSearch'           => [
-            'path'   => 'note/search.json',
-            'method' => 'GET',
-            'class'  => Note::class,
-        ],
-        'noteHistory'          => [
-            'path'   => 'note/history.json',
-            'method' => 'GET',
-            'class'  => NoteHistory::class,
-        ],
-        'noteRevert'           => [
-            'path'          => 'note/revert.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'noteUpdate'           => [
-            'path'          => 'note/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'userIndex'            => [
-            'path'   => 'user/index.json',
-            'method' => 'GET',
-            'class'  => User::class,
-        ],
-        'userShow'             => [
-            'path'   => 'user/show.json',
-            'method' => 'GET',
-            'class'  => User::class,
-        ],
-        'userRecordShow'       => [
-            'path'   => 'user_record/show.json',
-            'method' => 'GET',
-            'class'  => UserRecord::class,
-        ],
-        'dmailCreate'          => [
-            'path'          => 'dmail/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'dmailInbox'           => [
-            'path'          => 'dmail/inbox.json',
-            'method'        => 'GET',
-            'class'         => Dmail::class,
-            'require_login' => true,
-        ],
-        'dmailShow'            => [
-            'path'          => 'dmail/show.json',
-            'method'        => 'GET',
-            'class'         => Dmail::class,
-            'require_login' => true,
-        ],
-        'dmailHide'            => [
-            'path'          => 'dmail/hide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'dmailUnhide'          => [
-            'path'          => 'dmail/unhide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'dmailHideAll'         => [
-            'path'          => 'dmail/hide_all.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'dmailUnhideAll'       => [
-            'path'          => 'dmail/unhide_all.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'dmailMarkAllRead'     => [
-            'path'          => 'dmail/mark_all_read.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'forumCreate'          => [
-            'path'          => 'forum/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'forumUpdate'          => [
-            'path'          => 'forum/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'forumIndex'           => [
-            'path'   => 'forum/index.json',
-            'method' => 'GET',
-            'class'  => Forum::class,
-        ],
-        'forumSearch'          => [
-            'path'   => 'forum/search.json',
-            'method' => 'GET',
-            'class'  => Forum::class,
-        ],
-        'forumShow'            => [
-            'path'   => 'forum/show.json',
-            'method' => 'GET',
-            'class'  => Forum::class,
-        ],
-        'forumHide'            => [
-            'path'          => 'forum/hide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'forumUnhide'          => [
-            'path'          => 'forum/unhide.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'poolIndex'            => [
-            'path'   => 'pool/index.json',
-            'method' => 'GET',
-            'class'  => Pool::class,
-        ],
-        'poolShow'             => [
-            'path'   => 'pool/show.json',
-            'method' => 'GET',
-            'class'  => Pool::class,
-        ],
-        'poolUpdate'           => [
-            'path'          => 'pool/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'poolCreate'           => [
-            'path'          => 'pool/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'poolDestroy'          => [
-            'path'          => 'pool/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'poolAddPost'          => [
-            'path'          => 'pool/add_post.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'poolRemovePost'       => [
-            'path'          => 'pool/remove_post.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setIndex'             => [
-            'path'   => 'set/index.json',
-            'method' => 'GET',
-            'class'  => Set::class,
-        ],
-        'setShow'              => [
-            'path'   => 'set/show.json',
-            'method' => 'GET',
-            'class'  => Set::class,
-        ],
-        'setCreate'            => [
-            'path'          => 'set/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setUpdate'            => [
-            'path'          => 'set/update.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setAddPost'           => [
-            'path'          => 'set/add_post.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setRemovePost'        => [
-            'path'          => 'set/remove_post.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setDestroy'           => [
-            'path'          => 'set/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setMaintainers'       => [
-            'path'          => 'set/maintainers.json',
-            'method'        => 'GET',
-            'class'         => SetMaintainer::class,
-            'require_login' => true,
-        ],
-        'setMaintainerIndex'   => [
-            'path'          => 'set_maintainer/index.json',
-            'method'        => 'GET',
-            'class'         => SetMaintainer::class,
-            'require_login' => true,
-        ],
-        'setMaintainerCreate'  => [
-            'path'          => 'set_maintainer/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setMaintainerDestroy' => [
-            'path'          => 'set_maintainer/destroy.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setMaintainerApprove' => [
-            'path'          => 'set_maintainer/approve.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setMaintainerDeny'    => [
-            'path'          => 'set_maintainer/deny.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'setMaintainerBlock'   => [
-            'path'          => 'set_maintainer/block.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'favoriteListUsers'    => [
-            'path'   => 'favorite/list_users.json',
-            'method' => 'GET',
-            'class'  => FavoritedUsers::class,
-        ],
-        'postTagHistoryIndex'  => [
-            'path'   => 'post_tag_history/index.json',
-            'method' => 'GET',
-            'class'  => PostTagHistory::class,
-        ],
-        'postFlagHistoryIndex' => [
-            'path'   => 'post_flag_history/index.json',
-            'method' => 'GET',
-            'class'  => PostFlagHistory::class,
-        ],
-        'ticketCreate'         => [
-            'path'          => 'ticket/create.json',
-            'method'        => 'POST',
-            'class'         => Generic::class,
-            'require_login' => true,
-        ],
-        'ticketIndex'          => [
-            'path'   => 'ticket/index.json',
-            'method' => 'GET',
-            'class'  => Ticket::class,
-        ],
-        'ticketShow'           => [
-            'path'   => 'ticket/show.json',
-            'method' => 'GET',
-            'class'  => Ticket::class,
-        ],
-    ];
 
     /**
      * Guzzle's Client object
@@ -760,7 +175,7 @@ class E621
     private $auth;
 
     /**
-     * @var
+     * @var bool
      */
     private $throw_exceptions = true;
 
@@ -785,40 +200,33 @@ class E621
     }
 
     /**
-     * @param string $action
+     * @param string $method
      * @param array  $data
      *
      * @return string
      * @throws \InvalidArgumentException
      * @throws LoginRequiredException
+     * @throws ConnectException
      * @throws E621Exception
      */
-    public function __call($action, array $data = [])
+    public function __call($method, array $data = [])
     {
-        if (!isset($this->actions[$action]['path']) && !isset($this->actions[$action]['method']) && !isset($this->actions[$action]['class'])) {
-            throw new \InvalidArgumentException('Method "' . $action . '" doesn\'t exist');
-        }
-
-        $path = $this->actions[$action]['path'];
-        $method = $this->actions[$action]['method'];
-        $class = $this->actions[$action]['class'];
-        $require_login = isset($this->actions[$action]['require_login']) ? $this->actions[$action]['require_login'] : false;
-
+        $method_config = Methods::lookupByName($method);
         $parameters = isset($data[0]) && is_array($data[0]) ? $data[0] : null;
         $options = isset($data[1]) && is_array($data[1]) ? $data[1] : null;
 
-        if ($require_login) {
+        if (isset($method_config['require_login']) && $method_config['require_login'] === true) {
             if (!isset($parameters['login']) || !isset($parameters['password_hash'])) {
                 if (isset($this->auth['login']) && isset($this->auth['password_hash'])) {
                     $parameters['login'] = $this->auth['login'];
                     $parameters['password_hash'] = $this->auth['password_hash'];
                 } else {
-                    throw new LoginRequiredException($action);
+                    throw new LoginRequiredException($method);
                 }
             }
         }
 
-        return $this->request($path, $method, $parameters, $options, $class);
+        return $this->request($method_config['path'], $method_config['method'], $parameters, $options, $method_config['class']);
     }
 
     /**
@@ -832,6 +240,7 @@ class E621
      *
      * @return Response
      * @throws \InvalidArgumentException
+     * @throws ConnectException
      * @throws E621Exception
      */
     private function request($path = 'post/index.json', $method = 'GET', array $data = null, array $options = null, $class = null)
@@ -862,7 +271,7 @@ class E621
 
             if (!is_array($result)) {
                 if ($this->throw_exceptions === true) {
-                    throw new E621Exception(E621Exception::MESSAGE_DATA_INVALID, 0, null, $raw_result);
+                    throw new E621Exception(E621Exception::MESSAGE_DATA_INVALID, 0, null, $response);
                 } else {
                     $result = [
                         'reason' => E621Exception::MESSAGE_DATA_INVALID,
@@ -880,26 +289,32 @@ class E621
                 ];
             }
         } catch (RequestException $e) {
+            $response = $e->getResponse();
             $this->debugLog($e);
 
-            if ($e->getResponse() !== null && $e->getResponse()->getBody() !== null) {
-                $raw_result = (string)$e->getResponse()->getBody();
+            if ($response !== null && $response->getBody() !== null) {
+                $raw_result = (string)$response->getBody();
                 $result = json_decode($raw_result, true);
-            }
 
-            if (!isset($result) || !is_array($result)) {
-                if ($this->throw_exceptions === true) {
-                    throw new E621Exception(null, 0, $e, isset($raw_result) ? $raw_result : null);
-                } else {
-                    if (!isset($result)) {
-                        $result = $e->getMessage();
-                    } elseif (!is_array($result)) {
-                        $result = 'Request resulted in a `' . $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase() . '` response';
+                if (!is_array($result)) {
+                    $result = 'Request resulted in a `' . $e->getResponse()->getStatusCode() . ' ' . $e->getResponse()->getReasonPhrase() . '` response';
+
+                    if ($this->throw_exceptions === true) {
+                        throw new E621Exception($result, 0, $e, $response);
                     }
 
                     $result = [
                         'reason' => ConnectException::MESSAGE,
                         'error'  => $result,
+                    ];
+                }
+            } else {
+                if ($this->throw_exceptions === true) {
+                    throw new E621Exception(E621Exception::MESSAGE_REQUEST_ERROR, 0, $e, $response);
+                } else {
+                    $result = [
+                        'reason' => ConnectException::MESSAGE,
+                        'error' => $e->getMessage(),
                     ];
                 }
             }
@@ -919,15 +334,15 @@ class E621
         // Search for result class if we don't have one, this shouldn't happen but fail safe should be left anyway
         if (empty($class)) {
             $class = Generic::class;
-            foreach ($this->actions as $key => $val) {
-                if ($val['path'] === $path) {
-                    $class = $val['class'];
-                }
+            $method_config = Methods::lookupByPath($path);
+
+            if ($method_config !== null) {
+                $class = $method_config['class'];
             }
         }
 
         /** @noinspection PhpUndefinedVariableInspection */
-        return new Response($class, $result, $raw_result);
+        return new Response($class, $result, isset($raw_result) ? $raw_result : null);
     }
 
     /**
@@ -964,7 +379,6 @@ class E621
 
     /**
      * Get the stream handle of the temporary debug output
-     * Debug stream code borrowed from https://github.com/php-telegram-bot/core
      *
      * @return bool|resource
      */
@@ -1069,8 +483,8 @@ class E621
     }
 
     /**
-     * When set to true requests to the API will not throw any exceptions
-     * but will return Response object with appropriate fields set instead.
+     * When set to true all requests to the API will not longer throw any exceptions
+     * on errors but will return Response object with appropriate fields set instead.
      * You should avoid using this!
      *
      * @param bool $value
@@ -1078,5 +492,15 @@ class E621
     public function throwExceptions($value = true)
     {
         $this->throw_exceptions = $value;
+    }
+
+    /**
+     * Set custom Guzzle client instance
+     *
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
     }
 }

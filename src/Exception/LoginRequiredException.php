@@ -16,14 +16,14 @@ namespace jacklul\E621API\Exception;
 class LoginRequiredException extends E621Exception
 {
     /**
-     * @param string $action
+     * @param string $method
      */
-    public function __construct($action)
+    public function __construct($method)
     {
-        if (empty($action)) {
+        if (empty($method)) {
             parent::__construct('Logging in is required but no login data was provided');
         } else {
-            parent::__construct('Method "' . $action . '" requires logging in but no login data was provided');
+            parent::__construct('Method "' . $method . '" requires logging in but no login data was provided');
         }
     }
 }

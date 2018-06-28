@@ -285,7 +285,7 @@ Is thrown when something happens but it's none of the above.
 Possible cases:
 
 - HTTP client error, will contain `GuzzleHttp\Exception\GuzzleException` exception (`$e->getPrevious()`)
-- data parsing error, will contain a **raw result** (`$e->getRawResult()`)
+- data parsing error, will contain `Psr\Http\Message\ResponseInterface` object (`$e->getResponse()`, to get raw body use `$e->getResponse()->getBody()`
 
 ## License
 
