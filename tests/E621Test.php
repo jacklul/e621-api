@@ -3,6 +3,7 @@
 namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
+use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\TestCase;
 
 final class E621Test extends TestCase
@@ -148,7 +149,7 @@ final class E621Test extends TestCase
             $post_id = $post->getId();
         }
 
-        $this->assertInternalType("int", $post_id);
+        $this->assertThat($post_id, new IsType("int"));
     }
 
     public function testTimeoutWithAndWithoutExceptions()
