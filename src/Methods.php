@@ -574,16 +574,16 @@ class Methods
             'method' => 'GET',
             'class'  => FavoritedUsers::class,
         ],
-        'favoriteCreate'    => [
-            'path'   => 'favorite/create.json',
-            'method' => 'POST',
-            'class'  => Generic::class,
+        'favoriteCreate'       => [
+            'path'          => 'favorite/create.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
             'require_login' => true,
         ],
-        'favoriteDestroy'    => [
-            'path'   => 'favorite/destroy.json',
-            'method' => 'POST',
-            'class'  => Generic::class,
+        'favoriteDestroy'      => [
+            'path'          => 'favorite/destroy.json',
+            'method'        => 'POST',
+            'class'         => Generic::class,
             'require_login' => true,
         ],
         'postTagHistoryIndex'  => [
@@ -616,6 +616,7 @@ class Methods
 
     /**
      * @param $name
+     *
      * @return array|bool
      * @throws \InvalidArgumentException
      */
@@ -634,6 +635,7 @@ class Methods
 
     /**
      * @param $path
+     *
      * @return null|\stdClass
      * @throws \InvalidArgumentException
      */

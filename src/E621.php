@@ -316,7 +316,7 @@ class E621
                 } else {
                     $result = [
                         'reason' => ConnectException::MESSAGE,
-                        'error' => $e->getMessage(),
+                        'error'  => $e->getMessage(),
                     ];
                 }
             }
