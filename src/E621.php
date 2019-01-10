@@ -117,6 +117,8 @@ use jacklul\E621API\Exception\LoginRequiredException;
  * @method Response setMaintainerDeny(array $params = null, array $options = null)
  * @method Response setMaintainerBlock(array $params = null, array $options = null)
  * @method Response favoriteListUsers(array $params = null, array $options = null)
+ * @method Response favoriteCreate(array $params = null, array $options = null)
+ * @method Response favoriteDestroy(array $params = null, array $options = null)
  * @method Response postTagHistoryIndex(array $params = null, array $options = null)
  * @method Response postFlagHistoryIndex(array $params = null, array $options = null)
  * @method Response ticketCreate(array $params = null, array $options = null)

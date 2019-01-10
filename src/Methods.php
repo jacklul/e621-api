@@ -574,6 +574,18 @@ class Methods
             'method' => 'GET',
             'class'  => FavoritedUsers::class,
         ],
+        'favoriteCreate'    => [
+            'path'   => 'favorite/create.json',
+            'method' => 'POST',
+            'class'  => Generic::class,
+            'require_login' => true,
+        ],
+        'favoriteDestroy'    => [
+            'path'   => 'favorite/destroy.json',
+            'method' => 'POST',
+            'class'  => Generic::class,
+            'require_login' => true,
+        ],
         'postTagHistoryIndex'  => [
             'path'   => 'post_tag_history/index.json',
             'method' => 'GET',

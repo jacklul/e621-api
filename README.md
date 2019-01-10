@@ -253,6 +253,8 @@ See [official API documentation](https://e621.net/help/show/api).
 #### Favorites
 
 - **favoriteListUsers**
+- **favoriteCreate** (login required)
+- **favoriteDestroy** (login required)
 
 #### Tag History
 
