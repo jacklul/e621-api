@@ -23,7 +23,6 @@ matrix:
 notifications:
   on_success: never
   on_failure: always
-  email: false
 
 git:
   depth: 1
