@@ -1,4 +1,5 @@
 language: php
+dist: trusty
 
 cache:
   directories:
@@ -15,10 +16,10 @@ php:
   - hhvm
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: nightly
     - php: hhvm
-  fast_finish: true
 
 notifications:
   on_success: never
