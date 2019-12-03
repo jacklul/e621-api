@@ -22,7 +22,7 @@ class E621Exception extends \Exception
     const MESSAGE_DATA_INVALID = 'Data received from e621.net API is invalid';
 
     /**
-     * @var null|string
+     * @var ResponseInterface|null
      */
     private $response;
 
@@ -32,7 +32,7 @@ class E621Exception extends \Exception
      * @param \Exception|null        $previous
      * @param ResponseInterface|null $response
      */
-    public function __construct($message = "", $code = 0, \Exception $previous = null, ResponseInterface $response = null)
+    public function __construct($message = '', $code = 0, \Exception $previous = null, ResponseInterface $response = null)
     {
         $this->response = $response;
 
@@ -40,7 +40,7 @@ class E621Exception extends \Exception
     }
 
     /**
-     * @return null|string
+     * @return ResponseInterface|null
      */
     public function getResponse()
     {
