@@ -4,6 +4,7 @@ namespace jacklul\E621API\Tests;
 
 use jacklul\E621API\E621;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 
 final class E621Test extends TestCase
 {
@@ -20,7 +21,7 @@ final class E621Test extends TestCase
     protected function setUp()
     {
         if ($this->phpunit_version === null) {
-            if (class_exists('\PHPUnit\Runner\Version')) {
+            if (class_exists(Version::class)) {
                 /** @noinspection PhpUndefinedClassInspection */
                 $phpunit_version_string = explode(' by', \PHPUnit\Runner\Version::getVersionString())[0];
             } elseif (class_exists('PHPUnit_Runner_Version')) {
@@ -37,7 +38,7 @@ final class E621Test extends TestCase
         $this->api = new E621(
             [
                 'headers' => [
-                    'User-Agent' => 'PHPUnit' . (isset($phpunit_version) ? ' ' . $phpunit_version : '') . ' @ ' . php_uname(),
+                    'User-Agent' => 'PHPUnit' . $this->phpunit_version . ' @ ' . php_uname(),
                 ],
             ]
         );
@@ -148,7 +149,7 @@ final class E621Test extends TestCase
             $post_id = $post->getId();
         }
 
-        $this->assertInternalType("int", $post_id);
+        $this->assertInternalType('int', $post_id);
     }
 
     public function testTimeoutWithAndWithoutExceptions()
