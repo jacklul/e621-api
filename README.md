@@ -1,3 +1,5 @@
+## Due to many changes in the new API this project has been discontinued.
+
 # e621 API [![Build Status](https://travis-ci.org/jacklul/e621-api.svg?branch=master)](https://travis-ci.org/jacklul/e621-api)
 
 Simple wrapper for e621.net API written in PHP, uses [**Guzzle**](https://github.com/guzzle/guzzle) under the hood.
